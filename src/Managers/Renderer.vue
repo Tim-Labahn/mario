@@ -3,7 +3,6 @@ import EntityManager from "./EntityManager";
 import EntityRenderer from "./EntityRenderer.vue";
 
 defineProps<{ entityManager: EntityManager }>();
-console.log("this exists");
 </script>
 
 <template>

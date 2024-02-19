@@ -1,4 +1,5 @@
 import Entity from "../Entities/Entity";
+import Player from "../Entities/Player";
 import EntityManager from "./EntityManager";
 
 export default class GamePhysics {
@@ -9,13 +10,18 @@ export default class GamePhysics {
   }
   private gravity = 1;
   public tick() {
-    for (const entity of this.entityManager.getEntityList()) {
+    for (const entity of this.entityManager
+      .getEntityList()
+      .filter((a) => a instanceof Player)) {
+      if (!this.collidesInDirection(entity, "down", 0)) {
+        entity.y += this.gravity; // You should define gravity as a constant value
+      }
     }
   }
 
   public collidesInDirection(
     entity: Entity,
-    direction: "up" | "left" | "right",
+    direction: "up" | "left" | "right" | "down",
     offset: number
   ) {
     for (const otherEntity of this.entityManager
@@ -55,6 +61,16 @@ export default class GamePhysics {
             otherEntity,
             entity.x - entity.width / 2 - offset,
             entity.y + entity.height / 2
+          )
+        )
+          return true;
+      }
+      if (direction === "down") {
+        if (
+          this.isInBoundingBox(
+            otherEntity,
+            entity.x - entity.height / 2,
+            entity.y + entity.height / 2 + offset
           )
         )
           return true;

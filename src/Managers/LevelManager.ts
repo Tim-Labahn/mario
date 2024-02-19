@@ -4,8 +4,10 @@ import EntityManager from "./EntityManager";
 
 const LEVELS = [
   `             
-W                 W
-WP       W       WWW
+WP
+W
+W                  W
+W         W       WWW
 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW`,
 ];
 
