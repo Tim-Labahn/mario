@@ -12,7 +12,6 @@ export default class KeyboardHandler {
 
   private constructor() {
     document.addEventListener("keydown", (evt: KeyboardEvent) => {
-      console.log(this.keyMap);
       this.keyMap.set(evt.key, true);
     });
     document.addEventListener("keyup", (evt: KeyboardEvent) => {
@@ -21,7 +20,6 @@ export default class KeyboardHandler {
   }
 
   public isKeyDown(key: string) {
-    console.log(key);
     return this.keyMap.get(key) || false;
   }
 }

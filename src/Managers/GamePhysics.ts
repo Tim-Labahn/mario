@@ -7,15 +7,14 @@ export default class GamePhysics {
   public constructor(entityManager: EntityManager) {
     this.entityManager = entityManager;
   }
+
   public tick() {
-    for (const entity of this.entityManager.getEntityList()) {
-      entity.tick(this);
-    }
+    for (const entity of this.entityManager.getEntityList()) entity.tick(this);
   }
 
   public collidesInDirection(
     entity: Entity,
-    direction: "up" | "left" | "right" | "down",
+    direction: "up" | "down" | "left" | "right",
     offset: number
   ) {
     for (const otherEntity of this.entityManager
@@ -40,7 +39,24 @@ export default class GamePhysics {
         )
           return true;
       }
-
+      if (direction === "down") {
+        if (
+          this.isInBoundingBox(
+            otherEntity,
+            entity.x - entity.height / 2,
+            entity.y + entity.height / 2 + offset
+          )
+        )
+          return true;
+        if (
+          this.isInBoundingBox(
+            otherEntity,
+            entity.x + entity.height / 2,
+            entity.y + entity.height / 2 + offset
+          )
+        )
+          return true;
+      }
       if (direction === "left") {
         if (
           this.isInBoundingBox(
@@ -55,16 +71,6 @@ export default class GamePhysics {
             otherEntity,
             entity.x - entity.width / 2 - offset,
             entity.y + entity.height / 2
-          )
-        )
-          return true;
-      }
-      if (direction === "down") {
-        if (
-          this.isInBoundingBox(
-            otherEntity,
-            entity.x - entity.height / 2,
-            entity.y + entity.height / 2 + offset
           )
         )
           return true;

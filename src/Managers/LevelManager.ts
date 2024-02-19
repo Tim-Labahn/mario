@@ -4,10 +4,10 @@ import EntityManager from "./EntityManager";
 
 const LEVELS = [
   `             
-WP
+W
 W
 W                  W
-W         W       WWW
+W P          
 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW`,
 ];
 
@@ -34,7 +34,7 @@ export default class LevelManager {
 
         if (cell === "P")
           this.entityManager.addEntity(
-            new Player(x * 50 + 50, y * 50 + 50, 40, 40, "./Player.png")
+            new Player(x * 50 + 45, y * 50 + 50, 40, 40, "./Player.png")
           );
       });
     });

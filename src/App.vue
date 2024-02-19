@@ -10,9 +10,12 @@ const levelManager = new LevelManager(entityManager);
 const gamePhysics = new GamePhysics(entityManager);
 
 levelManager.loadLevel();
-
+let counter = 1;
 setInterval(() => {
-  gamePhysics.tick();
+  if (counter) {
+    gamePhysics.tick();
+    counter++;
+  }
 }, 10);
 </script>
 
