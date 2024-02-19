@@ -5,20 +5,30 @@ import Entity from "./Entity";
 export default class Player extends Entity {
   keyboardHandler: KeyboardHandler;
 
-  public movementSpeed = 3;
-
+  private movementSpeed = 3;
   private gravity = 2;
+  private counter = 25;
+
+  public isFalling(gamePhysics: GamePhysics) {
+    return !gamePhysics.collidesInDirection(this, "down", this.gravity);
+  }
+
   public tick(gamePhysics: GamePhysics) {
-    console.log(this.x, this.y);
-    if (!gamePhysics.collidesInDirection(this, "down", this.gravity)) {
-      this.y += this.gravity; // You should define gravity as a constant value
+    if (this.isFalling(gamePhysics)) {
+      this.y += this.gravity;
     }
 
     if (
       this.keyboardHandler.isKeyDown(this.getMovementKey("up")) &&
       !gamePhysics.collidesInDirection(this, "up", this.movementSpeed)
-    )
-      this.y -= this.movementSpeed;
+    ) {
+      if (this.counter) {
+        this.counter--;
+        this.y -= this.movementSpeed * 2;
+      } else {
+        this.y += this.gravity;
+      }
+    }
     if (
       this.keyboardHandler.isKeyDown(this.getMovementKey("left")) &&
       !gamePhysics.collidesInDirection(this, "left", this.movementSpeed)
