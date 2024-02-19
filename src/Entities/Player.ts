@@ -6,38 +6,41 @@ export default class Player extends Entity {
   keyboardHandler: KeyboardHandler;
 
   private movementSpeed = 3;
+  private jumpForce = 5.4;
   private gravity = 2;
-  private counter = 25;
-
-  public isFalling(gamePhysics: GamePhysics) {
-    return !gamePhysics.collidesInDirection(this, "down", this.gravity);
-  }
+  private jumpTicksLeft = 0;
 
   public tick(gamePhysics: GamePhysics) {
-    if (this.isFalling(gamePhysics)) {
+    const canMove = (
+      direction: "up" | "down" | "left" | "right",
+      offset: number
+    ) => {
+      return !gamePhysics.collidesInDirection(this, direction, offset);
+    };
+
+    const wantMove = (direction: "up" | "left" | "right") => {
+      return this.keyboardHandler.isKeyDown(this.getMovementKey(direction));
+    };
+
+    if (canMove("down", this.gravity)) {
       this.y += this.gravity;
     }
 
-    if (
-      this.keyboardHandler.isKeyDown(this.getMovementKey("up")) &&
-      !gamePhysics.collidesInDirection(this, "up", this.movementSpeed)
-    ) {
-      if (this.counter) {
-        this.counter--;
-        this.y -= this.movementSpeed * 2;
-      } else {
-        this.y += this.gravity;
-      }
+    if (!canMove("down", this.gravity) && wantMove("up")) {
+      this.jumpTicksLeft = 30;
     }
-    if (
-      this.keyboardHandler.isKeyDown(this.getMovementKey("left")) &&
-      !gamePhysics.collidesInDirection(this, "left", this.movementSpeed)
-    )
+
+    if (this.jumpTicksLeft && canMove("up", this.jumpForce)) {
+      this.jumpTicksLeft--;
+      this.y -= this.jumpForce;
+    }
+    if (!canMove("up", this.jumpForce)) {
+      this.jumpTicksLeft = 0;
+    }
+
+    if (wantMove("left") && canMove("left", this.movementSpeed))
       this.x -= this.movementSpeed;
-    if (
-      this.keyboardHandler.isKeyDown(this.getMovementKey("right")) &&
-      !gamePhysics.collidesInDirection(this, "right", this.movementSpeed)
-    )
+    if (wantMove("right") && canMove("right", this.movementSpeed))
       this.x += this.movementSpeed;
   }
 
