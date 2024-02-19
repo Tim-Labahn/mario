@@ -9,7 +9,7 @@ export default class Player extends Entity {
 
   private gravity = 1;
   public tick(gamePhysics: GamePhysics) {
-    if (!gamePhysics.collidesInDirection(this, "up", 0)) {
+    if (!gamePhysics.collidesInDirection(this, "down", this.movementSpeed)) {
       this.y += this.gravity; // You should define gravity as a constant value
     }
 

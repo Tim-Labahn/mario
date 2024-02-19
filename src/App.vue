@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import Renderer from "./Managers/Renderer.vue";
-import GamePhysics from "./Managers/GamePhysics";
 import EntityManager from "./Managers/EntityManager";
 import LevelManager from "./Managers/LevelManager";
+import GamePhysics from "./Managers/GamePhysics";
 
 const entityManager = new EntityManager();
+
 const levelManager = new LevelManager(entityManager);
 const gamePhysics = new GamePhysics(entityManager);
 
@@ -15,6 +16,8 @@ setInterval(() => {
 }, 10);
 </script>
 
-<template><Renderer :entityManager="entityManager"></Renderer></template>
+<template>
+  <Renderer :entityManager="entityManager"></Renderer>
+</template>
 
 <style scoped></style>

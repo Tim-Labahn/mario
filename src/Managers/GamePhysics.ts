@@ -1,5 +1,4 @@
 import Entity from "../Entities/Entity";
-import Player from "../Entities/Player";
 import EntityManager from "./EntityManager";
 
 export default class GamePhysics {
@@ -8,14 +7,9 @@ export default class GamePhysics {
   public constructor(entityManager: EntityManager) {
     this.entityManager = entityManager;
   }
-  private gravity = 1;
   public tick() {
-    for (const entity of this.entityManager
-      .getEntityList()
-      .filter((a) => a instanceof Player)) {
-      if (!this.collidesInDirection(entity, "down", 0)) {
-        entity.y += this.gravity; // You should define gravity as a constant value
-      }
+    for (const entity of this.entityManager.getEntityList()) {
+      entity.tick(this);
     }
   }
 
