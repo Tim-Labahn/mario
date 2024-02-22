@@ -6,8 +6,8 @@ export default class Player extends Entity {
   keyboardHandler: KeyboardHandler;
 
   private movementSpeed = 3;
-  private jumpForce = 5.4;
-  private gravity = 2;
+  private jumpForce = 6;
+  private gravity = 2.3;
   private jumpTicksLeft = 0;
 
   public tick(gamePhysics: GamePhysics) {

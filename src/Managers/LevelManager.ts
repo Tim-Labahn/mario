@@ -1,14 +1,22 @@
+import DeathBorder from "../Entities/Deathborder";
+import Enemy from "../Entities/Enemy";
 import Player from "../Entities/Player";
 import Wall from "../Entities/Wall";
 import EntityManager from "./EntityManager";
 
 const LEVELS = [
   `             
-W                        WWWWW
-W                 W      W   W
-W P   WW    W    WWW    
-W     WWW  WWW  WWWWW      W
-WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW`,
+W                                                   W
+W                                                   W
+W                                                   W
+W                                                   W
+W                                                   W
+W                                                   W
+W         W                                         W
+W P               WW  WW   E    W                   W
+WWWWWWWW     WWWWWWW  WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWWWWWWWDDDDDWWWWWWWDDWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+`,
 ];
 
 export default class LevelManager {
@@ -35,6 +43,21 @@ export default class LevelManager {
         if (cell === "P")
           this.entityManager.addEntity(
             new Player(x * 50 + 45, y * 50 + 50, 40, 40, "./Player.png")
+          );
+        if (cell === "D")
+          this.entityManager.addEntity(
+            new DeathBorder(
+              x * 50 + 50,
+              y * 50 + 50,
+              50,
+              50,
+              "./Black.png",
+              this
+            )
+          );
+        if (cell === "E")
+          this.entityManager.addEntity(
+            new Enemy(x * 50 + 45, y * 50 + 50, 50, 50, "./Enemy.png", this)
           );
       });
     });
