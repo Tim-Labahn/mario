@@ -7,7 +7,7 @@ import GamePhysics from "./Managers/GamePhysics";
 const entityManager = new EntityManager();
 
 const levelManager = new LevelManager(entityManager);
-const gamePhysics = new GamePhysics(entityManager);
+const gamePhysics = new GamePhysics(entityManager, levelManager);
 
 levelManager.loadLevel();
 

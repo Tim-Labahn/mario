@@ -2,16 +2,19 @@ import KeyboardHandler from "../Singletons/KeyboardHandler";
 import GamePhysics from "../Managers/GamePhysics";
 import Entity from "./Entity";
 import LevelManager from "../Managers/LevelManager";
+import EntityManager from "../Managers/EntityManager";
 
 export default class Player extends Entity {
   keyboardHandler: KeyboardHandler;
   levelManager: LevelManager;
+  entityManager: EntityManager;
   private movementSpeed = 3;
   private jumpForce = 6;
   private gravity = 2.2;
   private jumpTicksLeft = 0;
   public stopPlayerMovement = false;
   public tick(gamePhysics: GamePhysics) {
+    if (this.levelManager.win || this.levelManager.loseScreen.value) return;
     const canMove = (
       direction: "up" | "down" | "left" | "right",
       offset: number
@@ -22,7 +25,6 @@ export default class Player extends Entity {
     const wantMove = (direction: "up" | "left" | "right") => {
       return this.keyboardHandler.isKeyDown(this.getMovementKey(direction));
     };
-    if (this.levelManager.win || this.levelManager.loseScreen.value) return;
     if (canMove("down", this.gravity)) {
       this.y += this.gravity;
     }
@@ -55,11 +57,13 @@ export default class Player extends Entity {
     width: number,
     height: number,
     texture: string,
-    levelManager: LevelManager
+    levelManager: LevelManager,
+    entityManager: EntityManager
   ) {
     super(x, y, width, height, texture, "right");
     this.levelManager = levelManager;
     this.keyboardHandler = KeyboardHandler.getInstance();
+    this.entityManager = entityManager;
   }
 
   private movementKeys = {

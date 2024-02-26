@@ -1,7 +1,6 @@
 import Entity from "./Entity";
 import GamePhysics from "../Managers/GamePhysics";
 import LevelManager from "../Managers/LevelManager";
-import Player from "./Player";
 import EntityManager from "../Managers/EntityManager";
 
 export default class Enemy extends Entity {
@@ -36,35 +35,23 @@ export default class Enemy extends Entity {
     const canMove = (direction: "down" | "up" | "right" | "left") => {
       return !gamePhysics.collidesInDirection(this, direction, this.moveSpeed);
     };
-    if (
-      gamePhysics.isCollidingInDirection(
-        this,
-        this.entityManager.getEntityList().find((a) => a instanceof Player)!,
-        "up"
-      )
-    ) {
-      this.entityManager.removeEntity(this);
+    for (const player of this.entityManager.getPlayerList()) {
+      if (
+        gamePhysics.isCollidingInDirection(this, player, "left") ||
+        gamePhysics.isCollidingInDirection(this, player, "right") ||
+        gamePhysics.isCollidingInDirection(this, player, "down")
+      ) {
+        this.entityManager.removeEntity(player);
+      }
     }
-    if (
-      gamePhysics.isCollidingInDirection(
-        this,
-        this.entityManager.getEntityList().find((a) => a instanceof Player)!,
-        "left"
-      ) ||
-      gamePhysics.isCollidingInDirection(
-        this,
-        this.entityManager.getEntityList().find((a) => a instanceof Player)!,
-        "right"
-      ) ||
-      gamePhysics.isCollidingInDirection(
-        this,
-        this.entityManager.getEntityList().find((a) => a instanceof Player)!,
-        "down"
-      )
-    ) {
-      this.levelManager.loseScreen.value = true;
-    }
+
     if (this.levelManager.win || this.levelManager.loseScreen.value) return;
+    for (const player of this.entityManager.getPlayerList()) {
+      if (gamePhysics.isCollidingInDirection(this, player, "up")) {
+        this.entityManager.removeEntity(this);
+      }
+    }
+
     if (canMove("down")) {
       this.y += this.gravity;
     }

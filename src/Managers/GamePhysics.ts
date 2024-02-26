@@ -1,15 +1,18 @@
 import Entity from "../Entities/Entity";
 import EntityManager from "./EntityManager";
+import LevelManager from "./LevelManager";
 
 export default class GamePhysics {
   private entityManager: EntityManager;
-
-  public constructor(entityManager: EntityManager) {
+  private levelManager: LevelManager;
+  public constructor(entityManager: EntityManager, levelManager: LevelManager) {
     this.entityManager = entityManager;
+    this.levelManager = levelManager;
   }
 
   public tick() {
     for (const entity of this.entityManager.getEntityList()) entity.tick(this);
+    this.levelManager.tick(this);
   }
 
   public collidesInDirection(
