@@ -8,7 +8,7 @@ export default class Player extends Entity {
   levelManager: LevelManager;
   private movementSpeed = 3;
   private jumpForce = 6;
-  private gravity = 2.3;
+  private gravity = 2.2;
   private jumpTicksLeft = 0;
   public stopPlayerMovement = false;
   public tick(gamePhysics: GamePhysics) {
@@ -40,10 +40,13 @@ export default class Player extends Entity {
     }
 
     if (wantMove("left") && canMove("left", this.movementSpeed)) {
+      this.moveDirection = "left";
       this.x -= this.movementSpeed;
     }
-    if (wantMove("right") && canMove("right", this.movementSpeed))
+    if (wantMove("right") && canMove("right", this.movementSpeed)) {
+      this.moveDirection = "right";
       this.x += this.movementSpeed;
+    }
   }
 
   public constructor(
@@ -54,7 +57,7 @@ export default class Player extends Entity {
     texture: string,
     levelManager: LevelManager
   ) {
-    super(x, y, width, height, texture);
+    super(x, y, width, height, texture, "right");
     this.levelManager = levelManager;
     this.keyboardHandler = KeyboardHandler.getInstance();
   }

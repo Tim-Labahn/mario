@@ -14,6 +14,7 @@ defineProps<{ entity: Entity }>();
       height: `${entity.height}px`,
       backgroundImage: `url(${entity.texture})`,
       backgroundSize: 'cover',
+      transform: `scaleX(${entity.moveDirection == 'right' ? -1 : 1})`,
     }"
     :id="entity.id"
   ></div>

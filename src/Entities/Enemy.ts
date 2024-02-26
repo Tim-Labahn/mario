@@ -16,14 +16,17 @@ export default class Enemy extends Entity {
     levelManager: LevelManager,
     entityManager: EntityManager
   ) {
-    super(x, y, sizeX, sizeY, texture);
+    super(x, y, sizeX, sizeY, texture, "right");
     this.levelManager = levelManager;
     this.entityManager = entityManager;
     this.hasMovementCollision = true;
   }
   private gravity = 2.3;
   private moveSpeed = 1;
-  private moveDirection = "left";
+
+  public getMoveDirection() {
+    return this.moveDirection;
+  }
 
   public tick(gamePhysics: GamePhysics) {
     const wantMove = (direction: "right" | "left") => {

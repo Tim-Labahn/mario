@@ -11,18 +11,22 @@ export default abstract class Entity {
 
   public id: string;
 
+  public moveDirection: string;
+
   public constructor(
     x: number,
     y: number,
     width: number,
     height: number,
-    texture: string
+    texture: string,
+    moveDirection: "left" | "right"
   ) {
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
     this.texture = texture;
+    this.moveDirection = moveDirection;
     this.id = Math.random().toString(36).substring(7);
   }
 

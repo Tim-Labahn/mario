@@ -11,9 +11,10 @@ export default class DeathBorder extends Entity {
     sizeX: number,
     sizeY: number,
     texture: string,
-    levelManager: LevelManager
+    levelManager: LevelManager,
+    moveDirection: "left" | "right"
   ) {
-    super(x, y, sizeX, sizeY, texture);
+    super(x, y, sizeX, sizeY, texture, moveDirection);
     this.levelManager = levelManager;
     this.hasMovementCollision = true;
   }
