@@ -23,7 +23,6 @@ export default class Enemy extends Entity {
   }
 
   private moveSpeed = 1;
-  private stopEnemyMovement = false;
   private moveDirection = "left";
 
   public tick(gamePhysics: GamePhysics) {
@@ -35,13 +34,25 @@ export default class Enemy extends Entity {
       return !gamePhysics.collidesInDirection(this, direction, this.moveSpeed);
     };
     if (
-      gamePhysics.getCollidingEntities(this).some((e) => e instanceof Player)
+      gamePhysics.isCollidingInDirection(
+        this,
+        this.entityManager.getEntityList().find((a) => a instanceof Player)!,
+        "left"
+      ) ||
+      gamePhysics.isCollidingInDirection(
+        this,
+        this.entityManager.getEntityList().find((a) => a instanceof Player)!,
+        "right"
+      ) ||
+      gamePhysics.isCollidingInDirection(
+        this,
+        this.entityManager.getEntityList().find((a) => a instanceof Player)!,
+        "down"
+      )
     ) {
-      this.stopEnemyMovement = true;
-      this.entityManager.getPlayer()!.stopPlayerMovement = true;
       this.levelManager.loseScreen = true;
     }
-    if (this.levelManager.win || this.stopEnemyMovement) return;
+    if (this.levelManager.win || this.levelManager.loseScreen) return;
     if (wantMove("right") && canMove("right")) {
       this.x += this.moveSpeed;
     }

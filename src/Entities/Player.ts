@@ -22,7 +22,7 @@ export default class Player extends Entity {
     const wantMove = (direction: "up" | "left" | "right") => {
       return this.keyboardHandler.isKeyDown(this.getMovementKey(direction));
     };
-    if (this.levelManager.win || this.stopPlayerMovement) return;
+    if (this.levelManager.win || this.levelManager.loseScreen) return;
     if (canMove("down", this.gravity)) {
       this.y += this.gravity;
     }

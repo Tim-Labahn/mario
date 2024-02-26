@@ -121,4 +121,68 @@ export default class GamePhysics {
       y < entity.y + entity.height / 2
     );
   }
+
+  public isCollidingInDirection(
+    entity: Entity,
+    otherEntity: Entity,
+    direction: "up" | "down" | "left" | "right",
+    offset: number = 3
+  ): boolean {
+    switch (direction) {
+      case "up":
+        return (
+          this.isInBoundingBox(
+            otherEntity,
+            entity.x - entity.width / 2,
+            entity.y - entity.height / 2 - offset
+          ) ||
+          this.isInBoundingBox(
+            otherEntity,
+            entity.x + entity.width / 2,
+            entity.y - entity.height / 2 - offset
+          )
+        );
+      case "down":
+        return (
+          this.isInBoundingBox(
+            otherEntity,
+            entity.x - entity.width / 2,
+            entity.y + entity.height / 2 + offset
+          ) ||
+          this.isInBoundingBox(
+            otherEntity,
+            entity.x + entity.width / 2,
+            entity.y + entity.height / 2 + offset
+          )
+        );
+      case "left":
+        return (
+          this.isInBoundingBox(
+            otherEntity,
+            entity.x - entity.width / 2 - offset,
+            entity.y - entity.height / 2
+          ) ||
+          this.isInBoundingBox(
+            otherEntity,
+            entity.x - entity.width / 2 - offset,
+            entity.y + entity.height / 2
+          )
+        );
+      case "right":
+        return (
+          this.isInBoundingBox(
+            otherEntity,
+            entity.x + entity.width / 2 + offset,
+            entity.y - entity.height / 2
+          ) ||
+          this.isInBoundingBox(
+            otherEntity,
+            entity.x + entity.width / 2 + offset,
+            entity.y + entity.height / 2
+          )
+        );
+      default:
+        return false;
+    }
+  }
 }
