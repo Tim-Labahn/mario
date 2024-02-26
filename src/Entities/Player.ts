@@ -58,9 +58,10 @@ export default class Player extends Entity {
     height: number,
     texture: string,
     levelManager: LevelManager,
-    entityManager: EntityManager
+    entityManager: EntityManager,
+    direction: "right" | "left"
   ) {
-    super(x, y, width, height, texture, "right");
+    super(x, y, width, height, texture, direction);
     this.levelManager = levelManager;
     this.keyboardHandler = KeyboardHandler.getInstance();
     this.entityManager = entityManager;
@@ -70,12 +71,18 @@ export default class Player extends Entity {
     up: " ",
     left: "a",
     right: "d",
+    shoot: "s",
   };
 
-  public setMovementKeys(up: string, left: string, right: string) {
-    this.movementKeys = { up, left, right };
+  public setMovementKeys(
+    up: string,
+    left: string,
+    right: string,
+    shoot: string
+  ) {
+    this.movementKeys = { up, left, right, shoot };
   }
-  public getMovementKey(key: "up" | "left" | "right") {
+  public getMovementKey(key: "up" | "left" | "right" | "shoot") {
     return this.movementKeys[key];
   }
 }

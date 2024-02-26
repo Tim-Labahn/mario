@@ -16,7 +16,7 @@ W                                                   W
 W                                                   W
 W                                                   W
 W         W                                         W
-W 1  2             WW  WW   E    W                  W
+W2   1            WW  WW   E    W                  GW
 WWWWWWWW     WWWWWWW  WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 WWWWWWWWDDDDDWWWWWWWDDWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 `,
@@ -74,11 +74,12 @@ export default class LevelManager {
             y * 50 + 50,
             45,
             45,
-            "./Player.png",
+            "./Player1.png",
             this,
-            this.entityManager
+            this.entityManager,
+            "right"
           );
-          player.setMovementKeys(" ", "a", "d");
+          player.setMovementKeys(" ", "a", "d", "s");
           this.entityManager.addEntity(player);
         }
         if (cell === "2") {
@@ -87,11 +88,17 @@ export default class LevelManager {
             y * 50 + 50,
             45,
             45,
-            "./Player.png",
+            "./Player2.png",
             this,
-            this.entityManager
+            this.entityManager,
+            "right"
           );
-          player.setMovementKeys("ArrowUp", "ArrowLeft", "ArrowRight");
+          player.setMovementKeys(
+            "ArrowUp",
+            "ArrowLeft",
+            "ArrowRight",
+            "ArrowDown"
+          );
           this.entityManager.addEntity(player);
         }
         if (cell === "D")
