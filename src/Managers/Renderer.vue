@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import EntityManager from "./EntityManager";
 import EntityRenderer from "./EntityRenderer.vue";
 import LevelManager from "./LevelManager";
@@ -11,17 +11,26 @@ const props = defineProps<{
 
 const screenOffset = computed(
   () =>
-    `calc(50vw - ${
-      props.entityManager.getPlayerList().reduce((a, b) => a + b.x, 0) /
-      props.entityManager.getPlayerList().length
-    }px)`
+    props.entityManager.getPlayerList().reduce((a, b) => a + b.x, 0) /
+    props.entityManager.getPlayerList().length
 );
+let currentX = ref(screenOffset.value);
+function tick() {
+  currentX.value = currentX.value * 0.98 + screenOffset.value * 0.02;
+  if (!currentX.value) {
+    currentX.value = screenOffset.value;
+  }
+}
+defineExpose({ tick });
 </script>
 
 <template>
   Entities: {{ entityManager.getEntityList().length }}
   <div class="mapWrapper">
-    <div style="position: absolute" :style="{ left: screenOffset }">
+    <div
+      style="position: absolute"
+      :style="{ left: `calc(50vw - ${currentX}px)` }"
+    >
       <EntityRenderer
         v-for="entity in entityManager.getEntityList()"
         :entity="entity"
