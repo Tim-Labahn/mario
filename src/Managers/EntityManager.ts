@@ -4,7 +4,7 @@ import Player from "../Entities/Player";
 
 export default class EntityManager {
   private entityList = shallowRef<Entity[]>([]);
-
+  public playerList = <Player[]>[];
   public clearEntities() {
     for (const entity of this.entityList.value) this.removeEntity(entity);
   }
@@ -19,11 +19,12 @@ export default class EntityManager {
   public removeEntity(entity: Entity) {
     this.entityList.value = this.entityList.value.filter((e) => e !== entity);
   }
-  public getPlayer() {
+  public getPlayerList() {
     for (const entity of this.entityList.value) {
       if (entity instanceof Player) {
-        return entity;
+        this.playerList.push(entity);
       }
     }
+    return this.playerList;
   }
 }

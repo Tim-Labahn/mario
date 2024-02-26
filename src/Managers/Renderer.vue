@@ -10,7 +10,11 @@ const props = defineProps<{
 }>();
 
 const screenOffset = computed(
-  () => `calc(50vw - ${props.entityManager.getPlayer()?.x}px)`
+  () =>
+    `calc(50vw - ${
+      props.entityManager.getPlayerList().reduce((a, b) => a + b.x, 0) /
+      props.entityManager.getPlayerList().length
+    }px)`
 );
 </script>
 
