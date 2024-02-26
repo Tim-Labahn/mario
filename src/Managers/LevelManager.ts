@@ -1,3 +1,4 @@
+import { ref } from "vue";
 import DeathBorder from "../Entities/Deathborder";
 import Enemy from "../Entities/Enemy";
 import Goal from "../Entities/Goal";
@@ -14,7 +15,7 @@ W                                                   W
 W                                                   W
 W                                                   W
 W         W                                         W
-W P               WW  WW   E    W                   W
+W 1  2            WW  WW   E    W                   W
 WWWWWWWW     WWWWWWW  WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 WWWWWWWWDDDDDWWWWWWWDDWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 `,
@@ -26,7 +27,7 @@ W                                                   W
 W                                                   W
 W                                                   W
 W                                                   W
-WP                                                 GW
+W1                                                 GW
 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 `,
@@ -40,7 +41,7 @@ export default class LevelManager {
   }
   public win = false;
   private currentLevel = 0;
-  public loseScreen = false;
+  public loseScreen = ref(false);
 
   public nextLevel() {
     if (this.currentLevel < LEVELS.length - 1) {
@@ -62,10 +63,30 @@ export default class LevelManager {
             new Wall(x * 50 + 50, y * 50 + 50, 50, 50, "./Wall.png", "right")
           );
 
-        if (cell === "P")
-          this.entityManager.addEntity(
-            new Player(x * 50 + 40, y * 50 + 50, 45, 45, "./Player.png", this)
+        if (cell === "1") {
+          const player = new Player(
+            x * 50 + 40,
+            y * 50 + 50,
+            45,
+            45,
+            "./Player.png",
+            this
           );
+          player.setMovementKeys(" ", "a", "d");
+          this.entityManager.addEntity(player);
+        }
+        if (cell === "2") {
+          const player = new Player(
+            x * 50 + 40,
+            y * 50 + 50,
+            45,
+            45,
+            "./Player.png",
+            this
+          );
+          player.setMovementKeys("ArrowUp", "ArrowLeft", "ArrowRight");
+          this.entityManager.addEntity(player);
+        }
         if (cell === "D")
           this.entityManager.addEntity(
             new DeathBorder(

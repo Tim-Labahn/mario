@@ -23,7 +23,7 @@ export default class DeathBorder extends Entity {
     if (
       gamePhysics.getCollidingEntities(this).some((e) => e instanceof Player)
     ) {
-      this.levelManager.loseScreen = true;
+      this.levelManager.loseScreen.value = true;
     }
   }
 }
