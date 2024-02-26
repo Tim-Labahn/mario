@@ -1,3 +1,4 @@
+import { ref } from "vue";
 import DeathBorder from "../Entities/Deathborder";
 import Enemy from "../Entities/Enemy";
 import Goal from "../Entities/Goal";
@@ -40,7 +41,7 @@ export default class LevelManager {
   }
   public win = false;
   private currentLevel = 0;
-  public loseScreen = false;
+  public loseScreen = ref(false);
 
   public nextLevel() {
     if (this.currentLevel < LEVELS.length - 1) {

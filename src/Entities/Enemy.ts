@@ -37,6 +37,15 @@ export default class Enemy extends Entity {
       gamePhysics.isCollidingInDirection(
         this,
         this.entityManager.getEntityList().find((a) => a instanceof Player)!,
+        "up"
+      )
+    ) {
+      this.entityManager.removeEntity(this);
+    }
+    if (
+      gamePhysics.isCollidingInDirection(
+        this,
+        this.entityManager.getEntityList().find((a) => a instanceof Player)!,
         "left"
       ) ||
       gamePhysics.isCollidingInDirection(
@@ -50,9 +59,9 @@ export default class Enemy extends Entity {
         "down"
       )
     ) {
-      this.levelManager.loseScreen = true;
+      this.levelManager.loseScreen.value = true;
     }
-    if (this.levelManager.win || this.levelManager.loseScreen) return;
+    if (this.levelManager.win || this.levelManager.loseScreen.value) return;
     if (canMove("down")) {
       this.y += this.gravity;
     }

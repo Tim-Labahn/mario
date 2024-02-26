@@ -23,10 +23,10 @@ const screenOffset = computed(
       ></EntityRenderer>
     </div>
   </div>
-  <dialog :open="levelManager.loseScreen">
+  <dialog :open="levelManager.loseScreen.value">
     YOU DIED
     <button
-      @click="levelManager.loadLevel(), (levelManager.loseScreen = false)"
+      @click="levelManager.loadLevel(), (levelManager.loseScreen.value = false)"
     >
       Restart
     </button>
