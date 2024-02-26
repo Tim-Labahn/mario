@@ -60,7 +60,7 @@ export default class LevelManager {
       row.split("").forEach((cell, x) => {
         if (cell === "W")
           this.entityManager.addEntity(
-            new Wall(x * 50 + 50, y * 50 + 50, 50, 50, "./Wall.png")
+            new Wall(x * 50 + 50, y * 50 + 50, 50, 50, "./Wall.png", "right")
           );
 
         if (cell === "1") {
@@ -95,7 +95,8 @@ export default class LevelManager {
               50,
               50,
               "./Black.png",
-              this
+              this,
+              "right"
             )
           );
         if (cell === "E")
