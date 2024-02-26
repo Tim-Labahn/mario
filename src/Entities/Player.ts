@@ -66,12 +66,18 @@ export default class Player extends Entity {
     up: " ",
     left: "a",
     right: "d",
+    shoot: "s",
   };
 
-  public setMovementKeys(up: string, left: string, right: string) {
-    this.movementKeys = { up, left, right };
+  public setMovementKeys(
+    up: string,
+    left: string,
+    right: string,
+    shoot: string
+  ) {
+    this.movementKeys = { up, left, right, shoot };
   }
-  public getMovementKey(key: "up" | "left" | "right") {
+  public getMovementKey(key: "up" | "left" | "right" | "shoot") {
     return this.movementKeys[key];
   }
 }

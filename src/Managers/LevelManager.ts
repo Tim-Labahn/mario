@@ -72,7 +72,7 @@ export default class LevelManager {
             "./Player1.png",
             this
           );
-          player.setMovementKeys(" ", "a", "d");
+          player.setMovementKeys(" ", "a", "d", "s");
           this.entityManager.addEntity(player);
         }
         if (cell === "2") {
@@ -84,7 +84,12 @@ export default class LevelManager {
             "./Player2.png",
             this
           );
-          player.setMovementKeys("ArrowUp", "ArrowLeft", "ArrowRight");
+          player.setMovementKeys(
+            "ArrowUp",
+            "ArrowLeft",
+            "ArrowRight",
+            "ArrowDown"
+          );
           this.entityManager.addEntity(player);
         }
         if (cell === "D")
