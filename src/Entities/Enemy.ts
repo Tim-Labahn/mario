@@ -21,7 +21,7 @@ export default class Enemy extends Entity {
     this.entityManager = entityManager;
     this.hasMovementCollision = true;
   }
-
+  private gravity = 2.3;
   private moveSpeed = 1;
   private moveDirection = "left";
 
@@ -30,7 +30,7 @@ export default class Enemy extends Entity {
       return this.moveDirection == direction;
     };
 
-    const canMove = (direction: "right" | "left") => {
+    const canMove = (direction: "down" | "up" | "right" | "left") => {
       return !gamePhysics.collidesInDirection(this, direction, this.moveSpeed);
     };
     if (
@@ -53,6 +53,9 @@ export default class Enemy extends Entity {
       this.levelManager.loseScreen = true;
     }
     if (this.levelManager.win || this.levelManager.loseScreen) return;
+    if (canMove("down")) {
+      this.y += this.gravity;
+    }
     if (wantMove("right") && canMove("right")) {
       this.x += this.moveSpeed;
     }
