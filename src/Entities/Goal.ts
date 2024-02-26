@@ -20,7 +20,13 @@ export default class Goal extends Entity {
   }
 
   public tick(gamePhysics: GamePhysics) {
-    if (gamePhysics.getCollidingEntities(this).some((e) => e instanceof Player))
+    if (
+      gamePhysics.getCollidingEntities(this).some((e) => e instanceof Player)
+    ) {
       this.levelManager.win = true;
+      this.texture = "./OpenDoor.png";
+    } else {
+      this.texture = "./CloseDoor.png";
+    }
   }
 }

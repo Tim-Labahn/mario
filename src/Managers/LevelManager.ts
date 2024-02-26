@@ -16,7 +16,7 @@ W                                                   W
 W                                                   W
 W                                                   W
 W                                                   W
-W    1            WW  WW   E    W                  GW
+W                 WW  WW   E    W               1  GW
 WWWWWWWW   WWWWWWWWW  WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 WWWWWWWWDDDWWWWWWWWWDDWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 `,
@@ -65,7 +65,7 @@ export default class LevelManager {
       row.split("").forEach((cell, x) => {
         if (cell === "W")
           this.entityManager.addEntity(
-            new Wall(x * 50 + 50, y * 50 + 50, 50, 50, "./Wall.png", "right")
+            new Wall(x * 50 + 50, y * 50 + 50, 50, 50, "./Wall1.png", "right")
           );
 
         if (cell === "1") {
@@ -127,7 +127,7 @@ export default class LevelManager {
           );
         if (cell === "G")
           this.entityManager.addEntity(
-            new Goal(x * 50 + 50, y * 50 + 50, 45, 45, "./Coin.png", this)
+            new Goal(x * 50 + 50, y * 50 + 25, 50, 100, "./Door.png", this)
           );
       });
     });

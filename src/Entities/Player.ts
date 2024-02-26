@@ -13,9 +13,7 @@ export default class Player extends Entity {
   private gravity = 2.1;
   private jumpForce = 6;
   private jumpTicksLeft = 0;
-  private shootRange = 6;
-  private shootSpeed = 6;
-  private shootDelay = 6;
+  private bulletCooldown = 0;
   public stopPlayerMovement = false;
   public tick(gamePhysics: GamePhysics) {
     if (this.levelManager.win || this.levelManager.loseScreen.value) return;
@@ -29,6 +27,15 @@ export default class Player extends Entity {
     const wantMove = (direction: "up" | "left" | "right" | "shoot") => {
       return this.keyboardHandler.isKeyDown(this.getMovementKey(direction));
     };
+
+    // Decrease bulletCooldown if it's greater than zero
+    if (this.bulletCooldown > 0) {
+      this.bulletCooldown--;
+    }
+
+    // Check if the player can shoot based on bulletCooldown
+    const canShoot = this.bulletCooldown === 0;
+
     if (canMove("down", this.gravity)) {
       this.y += this.gravity;
     }
@@ -41,6 +48,7 @@ export default class Player extends Entity {
       this.jumpTicksLeft--;
       this.y -= this.jumpForce;
     }
+
     if (!canMove("up", this.jumpForce)) {
       this.jumpTicksLeft = 0;
     }
@@ -49,24 +57,28 @@ export default class Player extends Entity {
       this.moveDirection = "left";
       this.x -= this.movementSpeed;
     }
+
     if (wantMove("right") && canMove("right", this.movementSpeed)) {
       this.moveDirection = "right";
       this.x += this.movementSpeed;
     }
-    if (wantMove("shoot")) {
-      setTimeout(() => {
-        this.entityManager.addEntity(
-          new Bullet(
-            this.x + 70,
-            this.y,
-            5,
-            10,
-            "./Bullet.png",
-            this.levelManager,
-            this.entityManager
-          )
-        );
-      }, 10);
+
+    const bulletCooldownValue = 20;
+
+    if (wantMove("shoot") && canShoot) {
+      this.bulletCooldown = bulletCooldownValue;
+      this.entityManager.addEntity(
+        new Bullet(
+          this.x,
+          this.y + 13,
+          10,
+          5,
+          "./Bullet.png",
+          this.levelManager,
+          this.entityManager,
+          this.moveDirection
+        )
+      );
     }
   }
 

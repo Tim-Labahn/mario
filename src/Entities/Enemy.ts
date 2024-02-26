@@ -2,6 +2,7 @@ import Entity from "./Entity";
 import GamePhysics from "../Managers/GamePhysics";
 import LevelManager from "../Managers/LevelManager";
 import EntityManager from "../Managers/EntityManager";
+import Bullet from "./Bullet";
 
 export default class Enemy extends Entity {
   levelManager: LevelManager;
@@ -35,6 +36,14 @@ export default class Enemy extends Entity {
     const canMove = (direction: "down" | "up" | "right" | "left") => {
       return !gamePhysics.collidesInDirection(this, direction, this.moveSpeed);
     };
+
+    if (
+      gamePhysics
+        .getCollidingEntities(this, 1)
+        .filter((e) => e instanceof Bullet).length
+    ) {
+      this.entityManager.removeEntity(this);
+    }
     for (const player of this.entityManager.getPlayerList()) {
       if (
         gamePhysics.isCollidingInDirection(this, player, "left") ||
