@@ -64,7 +64,7 @@ export default class LevelManager {
 
         if (cell === "P")
           this.entityManager.addEntity(
-            new Player(x * 50 + 45, y * 50 + 50, 40, 40, "./Player.png", this)
+            new Player(x * 50 + 40, y * 50 + 50, 45, 45, "./Player.png", this)
           );
         if (cell === "D")
           this.entityManager.addEntity(
@@ -82,8 +82,8 @@ export default class LevelManager {
             new Enemy(
               x * 50 + 45,
               y * 50 + 50,
-              45,
-              45,
+              40,
+              40,
               "./Enemy.png",
               this,
               this.entityManager
