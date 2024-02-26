@@ -33,8 +33,16 @@ const screenOffset = computed(
   </dialog>
   <dialog :open="levelManager.win">
     YOU WON
-    <button @click="levelManager.loadLevel(), (levelManager.win = false)">
-      Restart
+    <button
+      @click="
+        () => {
+          levelManager.win = false;
+          levelManager.nextLevel();
+          levelManager.loadLevel();
+        }
+      "
+    >
+      Next Level
     </button>
   </dialog>
 </template>

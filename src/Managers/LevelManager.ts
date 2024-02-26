@@ -8,8 +8,8 @@ import EntityManager from "./EntityManager";
 const LEVELS = [
   `             
 W                                                   W
-W                                                   W
-W                                                   W
+W             WE                                    W
+W             WWWWWWWWWWWWWWWWWWWWW                 W
 W                                                   W
 W                                                   W
 W                                                   W
@@ -17,6 +17,18 @@ W         W                                         W
 W PW EWG          WW  WW   E    W                   W
 WWWWWWWW     WWWWWWW  WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 WWWWWWWWDDDDDWWWWWWWDDWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+`,
+  `             
+W                                                   W
+W                                                   W
+W                                                   W
+W                                                   W
+W                                                   W
+W                                                   W
+W                                                   W
+WP                                                 GW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 `,
 ];
 
@@ -29,6 +41,15 @@ export default class LevelManager {
   public win = false;
   private currentLevel = 0;
   public loseScreen = false;
+
+  public nextLevel() {
+    if (this.currentLevel < LEVELS.length - 1) {
+      this.currentLevel++;
+    } else {
+      this.currentLevel = 0;
+    }
+  }
+
   public loadLevel() {
     const map = LEVELS[this.currentLevel].trim();
 
