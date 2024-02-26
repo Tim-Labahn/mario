@@ -14,7 +14,7 @@ W                                                   W
 W                                                   W
 W                                                   W
 W         W                                         W
-WPW  WG      W  dE  WW  WW   E    W                   W
+W P               WW  WW   E    W                   W
 WWWWWWWW     WWWWWWW  WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 WWWWWWWWDDDDDWWWWWWWDDWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 `,
