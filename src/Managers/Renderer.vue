@@ -19,6 +19,7 @@ const screenOffset = computed(
 </script>
 
 <template>
+  Entities: {{ entityManager.getEntityList().length }}
   <div class="mapWrapper">
     <div style="position: absolute" :style="{ left: screenOffset }">
       <EntityRenderer

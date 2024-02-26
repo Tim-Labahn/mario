@@ -14,10 +14,10 @@ W             WWWWWWWWWWWWWWWWWWWWW                 W
 W                                                   W
 W                                                   W
 W                                                   W
-W         W                                         W
-W2   1            WW  WW   E    W                  GW
-WWWWWWWW     WWWWWWW  WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
-WWWWWWWWDDDDDWWWWWWWDDWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+W                                                   W
+W    1            WW  WW   E    W                  GW
+WWWWWWWW   WWWWWWWWW  WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWWWWWWWDDDWWWWWWWWWDDWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 `,
   `             
 W                                                   W
@@ -70,7 +70,8 @@ export default class LevelManager {
             45,
             45,
             "./Player1.png",
-            this
+            this,
+            this.entityManager
           );
           player.setMovementKeys(" ", "a", "d", "s");
           this.entityManager.addEntity(player);
@@ -82,7 +83,8 @@ export default class LevelManager {
             45,
             45,
             "./Player2.png",
-            this
+            this,
+            this.entityManager
           );
           player.setMovementKeys(
             "ArrowUp",
