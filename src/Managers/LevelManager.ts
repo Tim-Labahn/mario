@@ -15,7 +15,7 @@ W                                                   W
 W                                                   W
 W                                                   W
 W         W                                         W
-W 1  2            WW  WW   E    W                   W
+W2   1            WW  WW   E    W                  GW
 WWWWWWWW     WWWWWWW  WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 WWWWWWWWDDDDDWWWWWWWDDWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 `,
@@ -69,7 +69,7 @@ export default class LevelManager {
             y * 50 + 50,
             45,
             45,
-            "./Player.png",
+            "./Player1.png",
             this
           );
           player.setMovementKeys(" ", "a", "d");
@@ -81,7 +81,7 @@ export default class LevelManager {
             y * 50 + 50,
             45,
             45,
-            "./Player.png",
+            "./Player2.png",
             this
           );
           player.setMovementKeys("ArrowUp", "ArrowLeft", "ArrowRight");
