@@ -2,24 +2,28 @@ import Entity from "./Entity";
 import GamePhysics from "../Managers/GamePhysics";
 import LevelManager from "../Managers/LevelManager";
 import Player from "./Player";
+import EntityManager from "../Managers/EntityManager";
 
 export default class Enemy extends Entity {
   levelManager: LevelManager;
+  entityManager: EntityManager;
   public constructor(
     x: number,
     y: number,
     sizeX: number,
     sizeY: number,
     texture: string,
-    levelManager: LevelManager
+    levelManager: LevelManager,
+    entityManager: EntityManager
   ) {
     super(x, y, sizeX, sizeY, texture);
     this.levelManager = levelManager;
+    this.entityManager = entityManager;
     this.hasMovementCollision = true;
   }
 
   private moveSpeed = 1;
-
+  private stopEnemyMovement = false;
   private moveDirection = "left";
 
   public tick(gamePhysics: GamePhysics) {
@@ -28,34 +32,26 @@ export default class Enemy extends Entity {
     };
 
     const canMove = (direction: "right" | "left") => {
-      return gamePhysics.collidesInDirection(this, direction, this.moveSpeed);
+      return !gamePhysics.collidesInDirection(this, direction, this.moveSpeed);
     };
-
-    if (wantMove("right") && canMove("right")) {
-      this.x += this.moveSpeed;
-    }
-    if (
-      this.moveDirection == "right" &&
-      gamePhysics.collidesInDirection(this, "right", 1)
-    ) {
-      this.moveDirection = "left";
-    }
-    if (
-      this.moveDirection == "left" &&
-      !gamePhysics.collidesInDirection(this, "left", 1)
-    ) {
-      this.x -= this.moveSpeed;
-    } else if (
-      this.moveDirection == "left" &&
-      gamePhysics.collidesInDirection(this, "left", 1)
-    ) {
-      this.moveDirection = "right";
-    }
-
     if (
       gamePhysics.getCollidingEntities(this).some((e) => e instanceof Player)
     ) {
-      this.levelManager.loadLevel();
+      this.stopEnemyMovement = true;
+      this.entityManager.getPlayer()!.stopPlayerMovement = true;
+      this.levelManager.loseScreen = true;
+    }
+    if (this.levelManager.win || this.stopEnemyMovement) return;
+    if (wantMove("right") && canMove("right")) {
+      this.x += this.moveSpeed;
+    }
+    if (wantMove("right") && !canMove("right")) {
+      this.moveDirection = "left";
+    }
+    if (wantMove("left") && canMove("left")) {
+      this.x -= this.moveSpeed;
+    } else if (wantMove("left") && !canMove("left")) {
+      this.moveDirection = "right";
     }
   }
 }

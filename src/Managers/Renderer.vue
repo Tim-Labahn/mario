@@ -2,8 +2,12 @@
 import { computed } from "vue";
 import EntityManager from "./EntityManager";
 import EntityRenderer from "./EntityRenderer.vue";
+import LevelManager from "./LevelManager";
 
-const props = defineProps<{ entityManager: EntityManager }>();
+const props = defineProps<{
+  entityManager: EntityManager;
+  levelManager: LevelManager;
+}>();
 
 const screenOffset = computed(
   () => `calc(50vw - ${props.entityManager.getPlayer()?.x}px)`
@@ -19,6 +23,20 @@ const screenOffset = computed(
       ></EntityRenderer>
     </div>
   </div>
+  <dialog :open="levelManager.loseScreen">
+    YOU DIED
+    <button
+      @click="levelManager.loadLevel(), (levelManager.loseScreen = false)"
+    >
+      Restart
+    </button>
+  </dialog>
+  <dialog :open="levelManager.win">
+    YOU WON
+    <button @click="levelManager.loadLevel(), (levelManager.win = false)">
+      Restart
+    </button>
+  </dialog>
 </template>
 <style scoped>
 .mapWrapper {

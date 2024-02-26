@@ -1,5 +1,6 @@
 import DeathBorder from "../Entities/Deathborder";
 import Enemy from "../Entities/Enemy";
+import Goal from "../Entities/Goal";
 import Player from "../Entities/Player";
 import Wall from "../Entities/Wall";
 import EntityManager from "./EntityManager";
@@ -13,7 +14,7 @@ W                                                   W
 W                                                   W
 W                                                   W
 W         W                                         W
-W P               WW  WW   E    W                   W
+W PW EWG          WW  WW   E    W                   W
 WWWWWWWW     WWWWWWW  WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 WWWWWWWWDDDDDWWWWWWWDDWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 `,
@@ -25,9 +26,9 @@ export default class LevelManager {
   public constructor(entityManager: EntityManager) {
     this.entityManager = entityManager;
   }
-
+  public win = false;
   private currentLevel = 0;
-
+  public loseScreen = false;
   public loadLevel() {
     const map = LEVELS[this.currentLevel].trim();
 
@@ -42,7 +43,7 @@ export default class LevelManager {
 
         if (cell === "P")
           this.entityManager.addEntity(
-            new Player(x * 50 + 45, y * 50 + 50, 40, 40, "./Player.png")
+            new Player(x * 50 + 45, y * 50 + 50, 40, 40, "./Player.png", this)
           );
         if (cell === "D")
           this.entityManager.addEntity(
@@ -57,7 +58,19 @@ export default class LevelManager {
           );
         if (cell === "E")
           this.entityManager.addEntity(
-            new Enemy(x * 50 + 45, y * 50 + 50, 50, 50, "./Enemy.png", this)
+            new Enemy(
+              x * 50 + 45,
+              y * 50 + 50,
+              45,
+              45,
+              "./Enemy.png",
+              this,
+              this.entityManager
+            )
+          );
+        if (cell === "G")
+          this.entityManager.addEntity(
+            new Goal(x * 50 + 50, y * 50 + 50, 45, 45, "./Coin.png", this)
           );
       });
     });

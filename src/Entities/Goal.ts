@@ -3,8 +3,9 @@ import GamePhysics from "../Managers/GamePhysics";
 import LevelManager from "../Managers/LevelManager";
 import Player from "./Player";
 
-export default class DeathBorder extends Entity {
-  levelManager: LevelManager;
+export default class Goal extends Entity {
+  private levelManager: LevelManager;
+
   public constructor(
     x: number,
     y: number,
@@ -14,15 +15,12 @@ export default class DeathBorder extends Entity {
     levelManager: LevelManager
   ) {
     super(x, y, sizeX, sizeY, texture);
+
     this.levelManager = levelManager;
-    this.hasMovementCollision = true;
   }
-  protected hasMovementCollision = true;
+
   public tick(gamePhysics: GamePhysics) {
-    if (
-      gamePhysics.getCollidingEntities(this).some((e) => e instanceof Player)
-    ) {
-      this.levelManager.loseScreen = true;
-    }
+    if (gamePhysics.getCollidingEntities(this).some((e) => e instanceof Player))
+      this.levelManager.win = true;
   }
 }

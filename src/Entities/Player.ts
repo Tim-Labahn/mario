@@ -1,15 +1,16 @@
 import KeyboardHandler from "../Singletons/KeyboardHandler";
 import GamePhysics from "../Managers/GamePhysics";
 import Entity from "./Entity";
+import LevelManager from "../Managers/LevelManager";
 
 export default class Player extends Entity {
   keyboardHandler: KeyboardHandler;
-
+  levelManager: LevelManager;
   private movementSpeed = 3;
   private jumpForce = 6;
   private gravity = 2.3;
   private jumpTicksLeft = 0;
-
+  public stopPlayerMovement = false;
   public tick(gamePhysics: GamePhysics) {
     const canMove = (
       direction: "up" | "down" | "left" | "right",
@@ -21,7 +22,7 @@ export default class Player extends Entity {
     const wantMove = (direction: "up" | "left" | "right") => {
       return this.keyboardHandler.isKeyDown(this.getMovementKey(direction));
     };
-
+    if (this.levelManager.win || this.stopPlayerMovement) return;
     if (canMove("down", this.gravity)) {
       this.y += this.gravity;
     }
@@ -38,8 +39,9 @@ export default class Player extends Entity {
       this.jumpTicksLeft = 0;
     }
 
-    if (wantMove("left") && canMove("left", this.movementSpeed))
+    if (wantMove("left") && canMove("left", this.movementSpeed)) {
       this.x -= this.movementSpeed;
+    }
     if (wantMove("right") && canMove("right", this.movementSpeed))
       this.x += this.movementSpeed;
   }
@@ -49,10 +51,11 @@ export default class Player extends Entity {
     y: number,
     width: number,
     height: number,
-    texture: string
+    texture: string,
+    levelManager: LevelManager
   ) {
     super(x, y, width, height, texture);
-
+    this.levelManager = levelManager;
     this.keyboardHandler = KeyboardHandler.getInstance();
   }
 
@@ -65,7 +68,6 @@ export default class Player extends Entity {
   public setMovementKeys(up: string, left: string, right: string) {
     this.movementKeys = { up, left, right };
   }
-
   public getMovementKey(key: "up" | "left" | "right") {
     return this.movementKeys[key];
   }

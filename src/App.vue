@@ -17,7 +17,10 @@ setInterval(() => {
 </script>
 
 <template>
-  <Renderer :entityManager="entityManager"></Renderer>
+  <Renderer
+    :entityManager="entityManager"
+    :levelManager="levelManager"
+  ></Renderer>
 </template>
 
 <style scoped></style>
