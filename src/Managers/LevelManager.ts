@@ -5,6 +5,7 @@ import Goal from "../Entities/Goal";
 import Player from "../Entities/Player";
 import Wall from "../Entities/Wall";
 import EntityManager from "./EntityManager";
+import GamePhysics from "./GamePhysics";
 
 const LEVELS = [
   `             
@@ -50,7 +51,11 @@ export default class LevelManager {
       this.currentLevel = 0;
     }
   }
-
+  public tick(_: GamePhysics) {
+    if (this.entityManager.getPlayerList().length == 0) {
+      this.loseScreen.value = true;
+    }
+  }
   public loadLevel() {
     const map = LEVELS[this.currentLevel].trim();
 
@@ -71,7 +76,8 @@ export default class LevelManager {
             45,
             "./Player1.png",
             this,
-            this.entityManager
+            this.entityManager,
+            "right"
           );
           player.setMovementKeys(" ", "a", "d", "s");
           this.entityManager.addEntity(player);
@@ -84,7 +90,8 @@ export default class LevelManager {
             45,
             "./Player2.png",
             this,
-            this.entityManager
+            this.entityManager,
+            "right"
           );
           player.setMovementKeys(
             "ArrowUp",

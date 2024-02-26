@@ -14,7 +14,7 @@ export default class Goal extends Entity {
     texture: string,
     levelManager: LevelManager
   ) {
-    super(x, y, sizeX, sizeY, texture);
+    super(x, y, sizeX, sizeY, texture, "right");
 
     this.levelManager = levelManager;
   }
