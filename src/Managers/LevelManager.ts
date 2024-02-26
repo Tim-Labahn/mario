@@ -15,10 +15,10 @@ W             WWWWWWWWWWWWWWWWWWWWW                 W
 W                                                   W
 W                                                   W
 W                                                   W
-W         W                                         W
-W2   1            WW  WW   E    W                  GW
-WWWWWWWW     WWWWWWW  WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
-WWWWWWWWDDDDDWWWWWWWDDWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+W                                                   W
+W    1            WW  WW   E    W                  GW
+WWWWWWWW   WWWWWWWWW  WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWWWWWWWDDDWWWWWWWWWDDWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 `,
   `             
 W                                                   W

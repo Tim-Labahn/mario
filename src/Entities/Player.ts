@@ -3,15 +3,19 @@ import GamePhysics from "../Managers/GamePhysics";
 import Entity from "./Entity";
 import LevelManager from "../Managers/LevelManager";
 import EntityManager from "../Managers/EntityManager";
+import Bullet from "./Bullet";
 
 export default class Player extends Entity {
   keyboardHandler: KeyboardHandler;
   levelManager: LevelManager;
   entityManager: EntityManager;
   private movementSpeed = 3;
+  private gravity = 2.1;
   private jumpForce = 6;
-  private gravity = 2.2;
   private jumpTicksLeft = 0;
+  private shootRange = 6;
+  private shootSpeed = 6;
+  private shootDelay = 6;
   public stopPlayerMovement = false;
   public tick(gamePhysics: GamePhysics) {
     if (this.levelManager.win || this.levelManager.loseScreen.value) return;
@@ -22,7 +26,7 @@ export default class Player extends Entity {
       return !gamePhysics.collidesInDirection(this, direction, offset);
     };
 
-    const wantMove = (direction: "up" | "left" | "right") => {
+    const wantMove = (direction: "up" | "left" | "right" | "shoot") => {
       return this.keyboardHandler.isKeyDown(this.getMovementKey(direction));
     };
     if (canMove("down", this.gravity)) {
@@ -48,6 +52,21 @@ export default class Player extends Entity {
     if (wantMove("right") && canMove("right", this.movementSpeed)) {
       this.moveDirection = "right";
       this.x += this.movementSpeed;
+    }
+    if (wantMove("shoot")) {
+      setTimeout(() => {
+        this.entityManager.addEntity(
+          new Bullet(
+            this.x + 70,
+            this.y,
+            5,
+            10,
+            "./Bullet.png",
+            this.levelManager,
+            this.entityManager
+          )
+        );
+      }, 10);
     }
   }
 

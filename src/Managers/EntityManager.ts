@@ -14,7 +14,7 @@ export default class EntityManager {
   }
 
   public addEntity(entity: Entity) {
-    this.entityList.value.push(shallowReactive(entity));
+    this.entityList.value = [...this.entityList.value, shallowReactive(entity)];
   }
   public removeEntity(entity: Entity) {
     this.entityList.value = this.entityList.value.filter((e) => e !== entity);
