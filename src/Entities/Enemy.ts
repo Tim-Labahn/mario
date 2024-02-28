@@ -37,6 +37,10 @@ export default class Enemy extends Entity {
       return !gamePhysics.collidesInDirection(this, direction, this.moveSpeed);
     };
 
+    const canFall =()=>{
+      return !gamePhysics.collidesInDirection(this, "down", this.gravity);
+    }
+
     if (
       gamePhysics
         .getCollidingEntities(this, 1)
@@ -61,7 +65,7 @@ export default class Enemy extends Entity {
       }
     }
 
-    if (canMove("down")) {
+    if (canFall()) {
       this.y += this.gravity;
     }
     if (wantMove("right") && canMove("right")) {
