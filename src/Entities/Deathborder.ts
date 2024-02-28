@@ -24,6 +24,7 @@ export default class DeathBorder extends Entity {
   protected hasMovementCollision = true;
   public tick(gamePhysics: GamePhysics): void {
     for (const player of this.entityManager.getPlayerList()) {
+      //TODO: there is a bug whre player can survive on the border but die on jumping or moving. only had it once so no idea what it was.
       if (
         gamePhysics.isCollidingInDirection(this, player, "up",5)
       ) {
