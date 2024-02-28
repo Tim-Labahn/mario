@@ -118,8 +118,9 @@ export default class LevelManager {
               50,
               50,
               "./Black.png",
+              "right",
               this,
-              "right"
+              this.entityManager,
             )
           );
         if (cell === "E")

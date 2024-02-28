@@ -48,6 +48,7 @@ export default class Enemy extends Entity {
     ) {
       this.entityManager.removeEntity(this);
     }
+    
     for (const player of this.entityManager.getPlayerList()) {
       if (
         gamePhysics.isCollidingInDirection(this, player, "left") ||
