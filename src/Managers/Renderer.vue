@@ -16,7 +16,7 @@ const screenOffset = computed(
 );
 let currentX = ref(screenOffset.value);
 function tick() {
-  currentX.value = currentX.value * 0.98 + screenOffset.value * 0.02;
+  currentX.value = currentX.value * 0.93 + screenOffset.value * 0.07;
   if (!currentX.value) {
     currentX.value = screenOffset.value;
   }
@@ -45,20 +45,10 @@ defineExpose({ tick });
       Restart
     </button>
   </dialog>
-  <dialog :open="levelManager.win">
-    YOU WON
-    <button
-      @click="
-        () => {
-          levelManager.win = false;
-          levelManager.nextLevel();
-          levelManager.loadLevel();
-        }
-      "
-    >
-      Next Level
-    </button>
-  </dialog>
+  <div v-if="levelManager.win" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color:black; z-index: 9999; display: flex; justify-content: center; align-items: center; color: white; font-size: 24px;">
+  Loading...
+</div>
+
 </template>
 <style scoped>
 .mapWrapper {
