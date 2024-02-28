@@ -6,6 +6,7 @@ import Player from "../Entities/Player";
 import Wall from "../Entities/Wall";
 import EntityManager from "./EntityManager";
 import GamePhysics from "./GamePhysics";
+import Entrance from "../Entities/Entrance";
 
 const LEVELS = [
   `             
@@ -16,7 +17,7 @@ W                                                   W
 W                                                   W
 W                                                   W
 W                                                   W
-W                 WW  WW   E    W               1  GW
+W  1 2            WW  WW   E    W                  GW
 WWWWWWWW   WWWWWWWWW  WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 WWWWWWWWDDDWWWWWWWWWDDWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 `,
@@ -28,7 +29,7 @@ W                                                   W
 W                                                   W
 W                                                   W
 W                                                   W
-W1                                                 GW
+WS  1 2                                             W
 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 `,
@@ -51,6 +52,14 @@ export default class LevelManager {
       this.currentLevel = 0;
     }
   }
+  public lastLevel() {
+    if (this.currentLevel >0) {
+      this.currentLevel--;
+    } else {
+      this.currentLevel = LEVELS.length;
+    }
+  }
+
   public tick(_: GamePhysics) {
     if (this.entityManager.getPlayerList().length == 0) {
       this.loseScreen.value = true;
@@ -126,9 +135,15 @@ export default class LevelManager {
             )
           );
         if (cell === "G")
-          this.entityManager.addEntity(
+          {this.entityManager.addEntity(
             new Goal(x * 50 + 50, y * 50 + 25, 50, 100, "./Door.png", this)
           );
+        }
+        if (cell === "S")
+        {this.entityManager.addEntity(
+          new Entrance(x * 50 + 50, y * 50 + 25, 50, 100, "./Door.png", this)
+        );
+      }
       });
     });
   }
