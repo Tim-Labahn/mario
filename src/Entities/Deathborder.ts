@@ -25,7 +25,7 @@ export default class DeathBorder extends Entity {
   public tick(gamePhysics: GamePhysics): void {
     for (const player of this.entityManager.getPlayerList()) {
       if (
-        gamePhysics.isCollidingInDirection(this, player, "up")
+        gamePhysics.isCollidingInDirection(this, player, "up",5)
       ) {
         this.entityManager.removeEntity(player);
       }
