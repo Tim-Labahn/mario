@@ -35,9 +35,9 @@ defineExpose({ tick });
   </div>
   <div class="mapWrapper">
     <div
-      style="position: absolute"
+      style="position: absolute; zoom: 160%"
       :style="{
-        left: `calc(50vw - ${currentX}px)`,
+        left: `calc(33vw - ${currentX}px)`,
         height: `${
           Math.max(...entityManager.getEntityList().map((e) => e.y)) + 100
         }px`,
