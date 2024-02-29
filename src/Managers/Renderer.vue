@@ -25,11 +25,36 @@ defineExpose({ tick });
 </script>
 
 <template>
-  Entities: {{ entityManager.getEntityList().length }}
+  <div id="Debug" style="color: white; text-shadow: 1px 1px 2px black">
+    Entities: {{ entityManager.getEntityList().length }} <br />
+    Player: X:
+    {{ entityManager.getPlayerList().find((e) => e)?.x }}
+    Y:
+    {{ entityManager.getPlayerList().find((e) => e)?.y }}
+    <br />
+  </div>
   <div class="mapWrapper">
     <div
       style="position: absolute"
-      :style="{ left: `calc(50vw - ${currentX}px)` }"
+      :style="{
+        left: `calc(50vw - ${currentX}px)`,
+        height: `${
+          Math.max(...entityManager.getEntityList().map((e) => e.y)) + 100
+        }px`,
+        width: `${
+          Math.max(...entityManager.getEntityList().map((e) => e.x)) + 100
+        }px`,
+        maskImage: entityManager
+          .getPlayerList()
+          .map(
+            (e) => `radial-gradient(
+          circle at ${e.x}px ${e.y}px,
+          rgba(0, 0, 0, 1) 0px,
+          rgba(255, 255, 255, 0) 120px
+        )`
+          )
+          .join(', '),
+      }"
     >
       <EntityRenderer
         v-for="entity in entityManager.getEntityList()"
@@ -45,10 +70,25 @@ defineExpose({ tick });
       Restart
     </button>
   </dialog>
-  <div v-if="levelManager.win" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color:black; z-index: 9999; display: flex; justify-content: center; align-items: center; color: white; font-size: 24px;">
-  Loading...
-</div>
-
+  <div
+    v-if="levelManager.win"
+    style="
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: black;
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 24px;
+    "
+  >
+    Loading...
+  </div>
 </template>
 <style scoped>
 .mapWrapper {

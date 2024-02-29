@@ -113,22 +113,25 @@ export default class GamePhysics {
   }
 
   private isColliding(entity1: Entity, entity2: Entity, offset: number) {
-    return (
-      entity1.x - entity1.width / 2 - offset < entity2.x + entity2.width / 2 &&
-      entity1.x + entity1.width / 2 + offset > entity2.x - entity2.width / 2 &&
-      entity1.y - entity1.height / 2 - offset <
-        entity2.y + entity2.height / 2 &&
-      entity1.y + entity1.height / 2 + offset > entity2.y - entity2.height / 2
-    );
+    const conditionX =
+      entity1.x - entity1.width / 2 - offset < entity2.x + entity2.width / 2;
+    const conditionX2 =
+      entity1.x + entity1.width / 2 + offset > entity2.x - entity2.width / 2;
+    const conditionY =
+      entity1.y - entity1.height / 2 - offset < entity2.y + entity2.height / 2;
+    const conditionY2 =
+      entity1.y + entity1.height / 2 + offset > entity2.y - entity2.height / 2;
+
+    return conditionX && conditionX2 && conditionY && conditionY2;
   }
 
   private isInBoundingBox(entity: Entity, x: number, y: number) {
-    return (
-      x > entity.x - entity.width / 2 &&
-      x < entity.x + entity.width / 2 &&
-      y > entity.y - entity.height / 2 &&
-      y < entity.y + entity.height / 2
-    );
+    const conditionX =
+      x > entity.x - entity.width / 2 && x < entity.x + entity.width / 2;
+    const conditionY =
+      y > entity.y - entity.height / 2 && y < entity.y + entity.height / 2;
+
+    return conditionX && conditionY;
   }
 
   public isCollidingInDirection(
@@ -148,6 +151,11 @@ export default class GamePhysics {
           this.isInBoundingBox(
             otherEntity,
             entity.x + entity.width / 2,
+            entity.y - entity.height / 2 - offset
+          ) ||
+          this.isInBoundingBox(
+            otherEntity,
+            entity.x,
             entity.y - entity.height / 2 - offset
           )
         );
