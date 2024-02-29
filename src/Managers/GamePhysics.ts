@@ -1,4 +1,5 @@
 import Entity from "../Entities/Entity";
+import Player from "../Entities/Player";
 import EntityManager from "./EntityManager";
 import LevelManager from "./LevelManager";
 
@@ -127,9 +128,9 @@ export default class GamePhysics {
 
   private isInBoundingBox(entity: Entity, x: number, y: number) {
     const conditionX =
-      x > entity.x - entity.width / 2 && x < entity.x + entity.width / 2;
+      x >= entity.x - entity.width / 2 && x <= entity.x + entity.width / 2;
     const conditionY =
-      y > entity.y - entity.height / 2 && y < entity.y + entity.height / 2;
+      y >= entity.y - entity.height / 2 && y <= entity.y + entity.height / 2;
 
     return conditionX && conditionY;
   }
@@ -170,6 +171,11 @@ export default class GamePhysics {
             otherEntity,
             entity.x + entity.width / 2,
             entity.y + entity.height / 2 + offset
+          ) ||
+          this.isInBoundingBox(
+            otherEntity,
+            entity.x,
+            entity.y + entity.height / 2 + offset
           )
         );
       case "left":
@@ -183,6 +189,11 @@ export default class GamePhysics {
             otherEntity,
             entity.x - entity.width / 2 - offset,
             entity.y + entity.height / 2
+          ) ||
+          this.isInBoundingBox(
+            otherEntity,
+            entity.x - entity.width / 2 - offset,
+            entity.y
           )
         );
       case "right":
@@ -196,6 +207,11 @@ export default class GamePhysics {
             otherEntity,
             entity.x + entity.width / 2 + offset,
             entity.y + entity.height / 2
+          ) ||
+          this.isInBoundingBox(
+            otherEntity,
+            entity.x + entity.width / 2 + offset,
+            entity.y
           )
         );
       default:

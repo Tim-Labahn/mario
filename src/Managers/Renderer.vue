@@ -62,6 +62,13 @@ defineExpose({ tick });
       ></EntityRenderer>
     </div>
   </div>
+  <div
+    id="AmmoDisplay"
+    style="position: fixed; bottom: 10px; right: 10px; color: white"
+  >
+    Ammo Left:
+    {{ entityManager.getPlayerList().map((e) => e.getAmmunition()) }}
+  </div>
   <dialog :open="levelManager.loseScreen.value">
     YOU DIED
     <button

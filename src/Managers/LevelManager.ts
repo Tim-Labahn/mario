@@ -79,10 +79,10 @@ export default class LevelManager {
 
         if (cell === "1") {
           const player = new Player(
-            x * 50 + 40,
-            y * 50 + 40,
-            30,
-            51,
+            x * 50 + 50,
+            y * 50 + 50,
+            50,
+            100,
             "./Player1.png",
             this,
             this.entityManager,

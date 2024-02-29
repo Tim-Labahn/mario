@@ -14,8 +14,14 @@ export default class Player extends Entity {
   private jumpForce = 5;
   private jumpTicksLeft = 0;
   private bulletCooldown = 0;
+  private bulletInMag = 10;
+  private gunReloadingTicksLeft = 30;
   public stopPlayerMovement = false;
+  private walking = false;
+
   public tick(gamePhysics: GamePhysics) {
+    const bulletCooldownValue = 10;
+    const canShoot = this.bulletCooldown === 0;
     if (this.levelManager.win || this.levelManager.loseScreen.value) return;
 
     const canMove = (
@@ -35,7 +41,6 @@ export default class Player extends Entity {
     }
 
     // Check if the player can shoot based on bulletCooldown
-    const canShoot = this.bulletCooldown === 0;
 
     if (canMove("down", this.gravity)) {
       this.y += this.gravity;
@@ -55,18 +60,19 @@ export default class Player extends Entity {
     }
 
     if (wantMove("left") && canMove("left", this.movementSpeed)) {
+      this.walking = true;
       this.moveDirection = "left";
       this.x -= this.movementSpeed;
     }
 
     if (wantMove("right") && canMove("right", this.movementSpeed)) {
+      this.walking = true;
       this.moveDirection = "right";
       this.x += this.movementSpeed;
     }
 
-    const bulletCooldownValue = 10;
-
-    if (wantMove("shoot") && canShoot) {
+    if (wantMove("shoot") && canShoot && this.bulletInMag) {
+      this.gunReloadingTicksLeft = 60;
       this.bulletCooldown = bulletCooldownValue;
       this.entityManager.addEntity(
         new Bullet(
@@ -83,6 +89,17 @@ export default class Player extends Entity {
           this.moveDirection
         )
       );
+      this.bulletInMag--;
+    }
+    if (!this.bulletInMag) {
+      this.gunReloadingTicksLeft--;
+    }
+    if (this.gunReloadingTicksLeft < 1) {
+      this.bulletInMag = 10;
+    }
+
+    if (this.walking) {
+      this.texture = "./Player/Move/Frame1.png";
     }
   }
 
@@ -119,5 +136,9 @@ export default class Player extends Entity {
   }
   public getMovementKey(key: "up" | "left" | "right" | "shoot") {
     return this.movementKeys[key];
+  }
+
+  public getAmmunition(): Number {
+    return this.bulletInMag;
   }
 }

@@ -20,6 +20,6 @@ export default class EntityManager {
     this.entityList.value = this.entityList.value.filter((e) => e !== entity);
   }
   public getPlayerList() {
-    return this.getEntityList().filter((a) => a instanceof Player);
+    return this.getEntityList().filter((a) => a instanceof Player) as Player[];
   }
 }
