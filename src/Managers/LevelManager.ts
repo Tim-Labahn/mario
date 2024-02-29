@@ -17,7 +17,7 @@ W                                                   W
 W                                                   W
 W                                                   W
 W                                                   W
-W  1 2            WW  WW   E    W                  GW
+W  1              WW  WW   E    W                  GW
 WWWWWWWW   WWWWWWWWW  WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 WWWWWWWWDDDWWWWWWWWWDDWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 `,
@@ -29,7 +29,7 @@ W                                                   W
 W                                                   W
 W                                                   W
 W                                                   W
-WS  1 2                                             W
+WS  1                                               W
 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 `,

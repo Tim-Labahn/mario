@@ -4,13 +4,11 @@ import Entity from "./Entity";
 import LevelManager from "../Managers/LevelManager";
 import EntityManager from "../Managers/EntityManager";
 import Bullet from "./Bullet";
-import DeathBorder from "./Deathborder";
 
 export default class Player extends Entity {
   keyboardHandler: KeyboardHandler;
   levelManager: LevelManager;
   entityManager: EntityManager;
-  deathBorder: DeathBorder;
   private movementSpeed = 3;
   private gravity = 3;
   private jumpForce = 5;
@@ -19,11 +17,6 @@ export default class Player extends Entity {
   public stopPlayerMovement = false;
   public tick(gamePhysics: GamePhysics) {
     if (this.levelManager.win || this.levelManager.loseScreen.value) return;
-    if (
-      gamePhysics.isCollidingInDirection(this, this.deathBorder, "up")
-    ) {
-      this.entityManager.removeEntity(this);
-    }
 
     const canMove = (
       direction: "up" | "down" | "left" | "right",
@@ -56,7 +49,6 @@ export default class Player extends Entity {
       this.jumpTicksLeft--;
       this.y -= this.jumpForce;
     }
-
 
     if (!canMove("up", this.jumpForce)) {
       this.jumpTicksLeft = 0;
@@ -99,14 +91,12 @@ export default class Player extends Entity {
     texture: string,
     levelManager: LevelManager,
     entityManager: EntityManager,
-    deathBorder: DeathBorder,
     direction: "right" | "left"
   ) {
     super(x, y, width, height, texture, direction);
     this.levelManager = levelManager;
     this.keyboardHandler = KeyboardHandler.getInstance();
     this.entityManager = entityManager;
-    this.deathBorder= deathBorder;
   }
 
   private movementKeys = {

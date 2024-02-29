@@ -3,7 +3,6 @@ import GamePhysics from "../Managers/GamePhysics";
 import EntityManager from "../Managers/EntityManager";
 import LevelManager from "../Managers/LevelManager";
 import Wall from "./Wall";
-import { getSyntheticLeadingComments } from "typescript";
 import Player from "./Player";
 import Enemy from "./Enemy";
 

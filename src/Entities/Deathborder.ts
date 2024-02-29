@@ -14,20 +14,18 @@ export default class DeathBorder extends Entity {
     texture: string,
     moveDirection: "left" | "right",
     levelManager: LevelManager,
-    entityManager: EntityManager,
+    entityManager: EntityManager
   ) {
     super(x, y, sizeX, sizeY, texture, moveDirection);
     this.levelManager = levelManager;
-    this.hasMovementCollision = true;
+    this.hasMovementCollision = false;
     this.entityManager = entityManager;
   }
   protected hasMovementCollision = true;
   public tick(gamePhysics: GamePhysics): void {
     for (const player of this.entityManager.getPlayerList()) {
       //TODO: there is a bug whre player can survive on the border but die on jumping or moving. only had it once so no idea what it was.
-      if (
-        gamePhysics.isCollidingInDirection(this, player, "up",5)
-      ) {
+      if (gamePhysics.isCollidingInDirection(this, player, "up", 6)) {
         this.entityManager.removeEntity(player);
       }
     }
