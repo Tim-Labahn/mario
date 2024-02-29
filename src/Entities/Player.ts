@@ -12,8 +12,8 @@ export default class Player extends Entity {
   entityManager: EntityManager;
   deathBorder: DeathBorder;
   private movementSpeed = 3;
-  private gravity = 2.1;
-  private jumpForce = 6;
+  private gravity = 3;
+  private jumpForce = 5;
   private jumpTicksLeft = 0;
   private bulletCooldown = 0;
   public stopPlayerMovement = false;
@@ -79,7 +79,7 @@ export default class Player extends Entity {
       this.entityManager.addEntity(
         new Bullet(
           this.x,
-          this.y + 13,
+          this.y - 13,
           10,
           5,
           "./Bullet.png",

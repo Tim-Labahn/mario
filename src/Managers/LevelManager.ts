@@ -53,7 +53,7 @@ export default class LevelManager {
     }
   }
   public lastLevel() {
-    if (this.currentLevel >0) {
+    if (this.currentLevel > 0) {
       this.currentLevel--;
     } else {
       this.currentLevel = LEVELS.length;
@@ -80,9 +80,9 @@ export default class LevelManager {
         if (cell === "1") {
           const player = new Player(
             x * 50 + 40,
-            y * 50 + 50,
-            45,
-            45,
+            y * 50 + 40,
+            30,
+            51,
             "./Player1.png",
             this,
             this.entityManager,
@@ -120,7 +120,7 @@ export default class LevelManager {
               "./Black.png",
               "right",
               this,
-              this.entityManager,
+              this.entityManager
             )
           );
         if (cell === "E")
@@ -135,16 +135,16 @@ export default class LevelManager {
               this.entityManager
             )
           );
-        if (cell === "G")
-          {this.entityManager.addEntity(
+        if (cell === "G") {
+          this.entityManager.addEntity(
             new Goal(x * 50 + 50, y * 50 + 25, 50, 100, "./Door.png", this)
           );
         }
-        if (cell === "S")
-        {this.entityManager.addEntity(
-          new Entrance(x * 50 + 50, y * 50 + 25, 50, 100, "./Door.png", this)
-        );
-      }
+        if (cell === "S") {
+          this.entityManager.addEntity(
+            new Entrance(x * 50 + 50, y * 50 + 25, 50, 100, "./Door.png", this)
+          );
+        }
       });
     });
   }

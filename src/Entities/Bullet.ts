@@ -3,6 +3,9 @@ import GamePhysics from "../Managers/GamePhysics";
 import EntityManager from "../Managers/EntityManager";
 import LevelManager from "../Managers/LevelManager";
 import Wall from "./Wall";
+import { getSyntheticLeadingComments } from "typescript";
+import Player from "./Player";
+import Enemy from "./Enemy";
 
 export default class Bullet extends Entity {
   protected hasMovementCollision = true;
@@ -12,10 +15,29 @@ export default class Bullet extends Entity {
     this.x += this.moveDirection == "left" ? -15 : 15;
 
     if (
-      gamePhysics.getCollidingEntities(this, 2).filter((e) => e instanceof Wall)
-        .length
+      gamePhysics
+        .getCollidingEntities(this, 1)
+        .filter((e) => !(e instanceof Player)).length
     ) {
-      this.entityManager.removeEntity(this);
+      if (
+        gamePhysics
+          .getCollidingEntities(this, 1)
+          .filter((e) => e instanceof Wall)
+      ) {
+        this.entityManager.removeEntity(this);
+      }
+      if (
+        gamePhysics
+          .getCollidingEntities(this, 1)
+          .filter((e) => e instanceof Enemy)
+      ) {
+        for (let enemy of gamePhysics
+          .getCollidingEntities(this, 1)
+          .filter((e) => e instanceof Enemy)) {
+          this.entityManager.removeEntity(enemy);
+        }
+        this.entityManager.removeEntity(this);
+      }
     }
   }
   public constructor(
