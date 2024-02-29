@@ -86,7 +86,8 @@ export default class Player extends Entity {
           "./Bullet.png",
           this.levelManager,
           this.entityManager,
-          this.moveDirection
+          this.moveDirection,
+          2
         )
       );
       this.bulletInMag--;
@@ -111,9 +112,10 @@ export default class Player extends Entity {
     texture: string,
     levelManager: LevelManager,
     entityManager: EntityManager,
+    visonConeWidth: number,
     direction: "right" | "left"
   ) {
-    super(x, y, width, height, texture, direction);
+    super(x, y, width, height, texture, direction, visonConeWidth);
     this.levelManager = levelManager;
     this.keyboardHandler = KeyboardHandler.getInstance();
     this.entityManager = entityManager;

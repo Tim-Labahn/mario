@@ -74,7 +74,15 @@ export default class LevelManager {
       row.split("").forEach((cell, x) => {
         if (cell === "W")
           this.entityManager.addEntity(
-            new Wall(x * 50 + 50, y * 50 + 50, 50, 50, "./Wall1.png", "right")
+            new Wall(
+              x * 50 + 50,
+              y * 50 + 50,
+              50,
+              50,
+              "./Wall1.png",
+              "right",
+              0
+            )
           );
 
         if (cell === "1") {
@@ -86,6 +94,7 @@ export default class LevelManager {
             "./Player1.png",
             this,
             this.entityManager,
+            5,
             "right"
           );
           player.setMovementKeys(" ", "a", "d", "s");
@@ -100,6 +109,7 @@ export default class LevelManager {
             "./Player2.png",
             this,
             this.entityManager,
+            5,
             "right"
           );
           player.setMovementKeys(
@@ -120,7 +130,8 @@ export default class LevelManager {
               "./Black.png",
               "right",
               this,
-              this.entityManager
+              this.entityManager,
+              0
             )
           );
         if (cell === "E")

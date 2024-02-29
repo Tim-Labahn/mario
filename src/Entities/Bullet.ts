@@ -47,9 +47,10 @@ export default class Bullet extends Entity {
     texture: string,
     levelManager: LevelManager,
     entityManager: EntityManager,
-    moveDirection: string
+    moveDirection: string,
+    visonConeWidth: number
   ) {
-    super(x, y, width, height, texture, "right");
+    super(x, y, width, height, texture, "right", visonConeWidth);
     this.levelManager = levelManager;
     this.entityManager = entityManager;
     this.moveDirection = moveDirection;

@@ -13,13 +13,16 @@ export default abstract class Entity {
 
   public moveDirection: string;
 
+  public visonConeWidth: number;
+
   public constructor(
     x: number,
     y: number,
     width: number,
     height: number,
     texture: string,
-    moveDirection: "left" | "right"
+    moveDirection: "left" | "right",
+    visonConeWidth: number
   ) {
     this.x = x;
     this.y = y;
@@ -27,6 +30,7 @@ export default abstract class Entity {
     this.height = height;
     this.texture = texture;
     this.moveDirection = moveDirection;
+    this.visonConeWidth = visonConeWidth;
     this.id = Math.random().toString(36).substring(7);
   }
 
