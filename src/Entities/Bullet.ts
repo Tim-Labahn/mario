@@ -11,7 +11,7 @@ export default class Bullet extends Entity {
   levelManager: LevelManager;
   entityManager: EntityManager;
   public tick(gamePhysics: GamePhysics) {
-    this.x += this.moveDirection == "left" ? -15 : 15;
+    this.x += this.moveDirection == "left" ? -20 : 20;
 
     if (
       gamePhysics

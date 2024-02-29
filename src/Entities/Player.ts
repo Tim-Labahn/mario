@@ -64,13 +64,16 @@ export default class Player extends Entity {
       this.x += this.movementSpeed;
     }
 
-    const bulletCooldownValue = 20;
+    const bulletCooldownValue = 10;
 
     if (wantMove("shoot") && canShoot) {
       this.bulletCooldown = bulletCooldownValue;
       this.entityManager.addEntity(
         new Bullet(
-          this.x,
+          this.x -
+            (this.moveDirection == "right"
+              ? -20
+              : 20) /*This is the ofset from the mullet of the gun to where it should spawn so it does not spawn in player.*/,
           this.y - 13,
           10,
           5,
