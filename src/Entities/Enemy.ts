@@ -107,7 +107,7 @@ export default class Enemy extends MoveableEntity {
     this.walking = isWalking;
 
     if (!this.walkingTicksLeft) {
-      this.walkingTicksLeft = 8;
+      this.walkingTicksLeft = 10;
       if (this.walking) {
         this.walkingState++;
         this.texture = "./Enemy/Move/Frame" + this.walkingState + ".png";

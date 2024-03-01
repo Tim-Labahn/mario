@@ -13,19 +13,14 @@ const LEVELS = [
 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 W                                                   W
 W                                                   W
-W1                                            E    GW
+W1  G                E                        E    GW
 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 `,
   `             
-W                                                   W
-W                                                   W
-W                                                   W
-W                                                   W
-W                                                   W
-W                                                   W
-W                                                   W
-WS  1                                               W
 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+W                                                   W
+W                                                   W
+WS 1                E     G                   E     W
 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 `,
 ];
@@ -141,12 +136,28 @@ export default class LevelManager {
           );
         if (cell === "G") {
           this.entityManager.addEntity(
-            new Goal(x * 50 + 50, y * 50 + 25, 50, 100, "./Door.png", this)
+            new Goal(
+              x * 50 + 50,
+              y * 50 + 25,
+              50,
+              100,
+              "./Door.png",
+              this,
+              false
+            )
           );
         }
         if (cell === "S") {
           this.entityManager.addEntity(
-            new Entrance(x * 50 + 50, y * 50 + 25, 50, 100, "./Door.png", this)
+            new Entrance(
+              x * 50 + 50,
+              y * 50 + 25,
+              50,
+              100,
+              "./Door.png",
+              this,
+              false
+            )
           );
         }
       });

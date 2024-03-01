@@ -43,8 +43,8 @@ export default class Player extends MoveableEntity {
       moveDirection
     );
     this.levelManager = levelManager;
-    this.keyboardHandler = KeyboardHandler.getInstance();
     this.entityManager = entityManager;
+    this.keyboardHandler = KeyboardHandler.getInstance();
   }
   private movementKeys = {
     up: " ",
