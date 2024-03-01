@@ -11,13 +11,13 @@ import Entrance from "../Entities/Entrance";
 const LEVELS = [
   `             
 W                                                   W
-W             WE                                    W
-W             WWWWWWWWWWWWWWWWWWWWW                 W
+W            WE                                     W
+W            WWWWWWWWWWWWWWWWWWWWWW                 W
 W                                                   W
 W                                                   W
 W                                                   W
 W                                                   W
-W  1              WW  WW   E    W                  GW
+W1                WW  WW   E    W                  GW
 WWWWWWWW   WWWWWWWWW  WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 WWWWWWWWDDDWWWWWWWWWDDWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 `,
@@ -79,10 +79,10 @@ export default class LevelManager {
 
         if (cell === "1") {
           const player = new Player(
-            x * 50 + 50,
-            y * 50 + 50,
-            50,
-            100,
+            x * 50 + 60,
+            y * 50 + 30,
+            40,
+            80,
             "./Player1.png",
             3,
             5,

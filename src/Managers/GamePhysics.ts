@@ -45,7 +45,7 @@ export default class GamePhysics {
         if (
           this.isInBoundingBox(
             otherEntity,
-            entity.x + entity.height / 2,
+            entity.x + entity.height / 2 - 10, //TODO: this might cause problems in future with faling into blocks. but its the easiest way rn to let player fall into holes. it maked the hitbox smaller
             entity.y - entity.height / 2 - offset
           )
         )
@@ -55,7 +55,7 @@ export default class GamePhysics {
         if (
           this.isInBoundingBox(
             otherEntity,
-            entity.x - entity.height / 2,
+            entity.x - entity.height / 2 + 10, //TODO: this might cause problems in future with faling into blocks. but its the easiest way rn to let player fall into holes. it maked the hitbox smaller
             entity.y + entity.height / 2 + offset
           )
         )
