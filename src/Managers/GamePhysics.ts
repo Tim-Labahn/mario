@@ -8,7 +8,7 @@ import LevelManager from "./LevelManager";
 export default class GamePhysics {
   private entityManager: EntityManager;
   private levelManager: LevelManager;
-  private gravity = 2; //this is so all objects have same gravity, as it should be.
+  private gravity = 2.5; //this is so all objects have same gravity, as it should be.
 
   public constructor(entityManager: EntityManager, levelManager: LevelManager) {
     this.entityManager = entityManager;

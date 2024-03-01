@@ -53,10 +53,8 @@ export default class LevelManager {
     }
   }
   public lastLevel() {
-    if (this.currentLevel > 0) {
+    if (this.currentLevel >= 1) {
       this.currentLevel--;
-    } else {
-      this.currentLevel = LEVELS.length;
     }
   }
 
