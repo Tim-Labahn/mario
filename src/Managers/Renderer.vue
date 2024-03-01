@@ -107,7 +107,7 @@ defineExpose({ tick });
       font-size: 24px;
     "
   >
-    Loading...
+    Loading {{ Loading }}
   </div>
 </template>
 <style scoped>
@@ -117,3 +117,11 @@ defineExpose({ tick });
   top: 30%;
 }
 </style>
+
+<script lang="ts">
+let Loading = "";
+window.setInterval(() => {
+  if (Loading.length > 3) Loading = "";
+  else Loading += ".";
+}, 300);
+</script>

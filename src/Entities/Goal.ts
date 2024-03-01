@@ -34,8 +34,8 @@ export default class Goal extends Entity {
         this.levelManager.loadLevel();
         setTimeout(() => {
           this.levelManager.win = false;
-        }, 1500);
-      }, 400);
+        }, Math.floor(Math.random() * (4000 - 1200)) + 1200);
+      }, 500);
     } else {
       this.texture = "./CloseDoor.png";
     }
