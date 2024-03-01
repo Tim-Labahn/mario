@@ -67,11 +67,11 @@ export default class LevelManager {
 
         if (cell === "1") {
           const player = new Player(
-            x * 50 + 60,
-            y * 50 + 30,
-            40,
-            80,
-            "./Player/Move/Frame1.png",
+            x * 50 + 70,
+            y * 50 + 10,
+            45,
+            90,
+            "./Player/Idle.png",
             3,
             5,
             this,

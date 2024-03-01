@@ -127,6 +127,23 @@ export default class Player extends MoveableEntity {
     this.walking = isWalking;
 
     if (wantMove("shoot") && canShoot && this.bulletInMag) {
+      this.x + 21;
+      this.width = 64;
+      this.height = 80;
+
+      setTimeout(() => {
+        this.texture = "./Player/Shoot/Frame1.png";
+      }, 60);
+      setTimeout(() => {
+        this.texture = "./Player/Shoot/Frame2.png";
+      }, 120);
+      setTimeout(() => {
+        this.texture = "./Player/Shoot/Frame3.png";
+      }, 180);
+      setTimeout(() => {
+        this.texture = "./Player/Shoot/Frame4.png";
+      }, 240);
+
       this.gunReloadingTicksLeft = 60;
       this.bulletCooldown = bulletCooldownValue;
       this.entityManager.addEntity(
@@ -160,6 +177,9 @@ export default class Player extends MoveableEntity {
       this.walkingTicksLeft = 8;
       if (this.walking) {
         this.walkingState++;
+
+        this.width = 40;
+        this.height = 80;
         this.texture = "./Player/Move/Frame" + this.walkingState + ".png";
       }
       if (this.walkingState >= 7) {

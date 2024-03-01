@@ -42,7 +42,9 @@ defineExpose({ tick });
         .getPlayerList()
         .find((e) => e)
         ?.getPositionY()
-    }}
+    }}<br />
+    Player: IMG:
+    {{ entityManager.getPlayerList().find((e) => e)?.texture }}
     <br />
   </div>
   <div class="mapWrapper">
