@@ -53,7 +53,7 @@ defineExpose({ tick });
             (e) => `radial-gradient(
           circle at ${e.x}px ${e.y}px,
           rgba(0, 0, 0, 1) 0px,
-          rgba(255, 255, 255, 0) 120px
+          rgba(255, 255, 255, 0) ${e.visonConeWidth * 25}px
         )`
           )
           .join(', '),

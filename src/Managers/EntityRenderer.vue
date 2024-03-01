@@ -19,13 +19,3 @@ defineProps<{ entity: Entity }>();
     :id="entity.id"
   ></div>
 </template>
-
-<style>
-.mask2 {
-  mask-image: radial-gradient(
-    circle at 200px 200px,
-    rgba(0, 0, 0, 1) 50px,
-    rgba(255, 255, 255, 0) 50px
-  );
-}
-</style>
