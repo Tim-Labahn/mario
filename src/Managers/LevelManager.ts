@@ -10,16 +10,11 @@ import Entrance from "../Entities/Entrance";
 
 const LEVELS = [
   `             
-W                                                   W
-W            WE                                     W
-W            WWWWWWWWWWWWWWWWWWWWWW                 W
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 W                                                   W
 W                                                   W
-W                                                   W
-W                                                   W
-W1                WW  WW   E    W                  GW
-WWWWWWWW   WWWWWWWWW  WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
-WWWWWWWWDDDWWWWWWWWWDDWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+W1                                            E    GW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 `,
   `             
 W                                                   W
@@ -81,7 +76,7 @@ export default class LevelManager {
             y * 50 + 30,
             40,
             80,
-            "./Player1.png",
+            "./Player/Move/Frame1.png",
             3,
             5,
             this,
@@ -96,9 +91,9 @@ export default class LevelManager {
           const player = new Player(
             x * 50 + 50,
             y * 50 + 50,
-            50,
-            100,
-            "./Player1.png",
+            40,
+            80,
+            "./Player/Move/Frame1.png",
             3,
             5,
             this,
@@ -131,16 +126,16 @@ export default class LevelManager {
         if (cell === "E")
           this.entityManager.addEntity(
             new Enemy(
-              x * 50 + 45,
-              y * 50 + 50,
+              x * 50 + 60,
+              y * 50 + 30,
               40,
-              40,
-              "./Enemy.png",
+              80,
+              "./Enemy/Move/Frame1.png",
               1,
               "right",
               this,
               this.entityManager,
-              0,
+              3,
               true
             )
           );

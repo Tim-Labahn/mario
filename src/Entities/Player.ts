@@ -15,6 +15,8 @@ export default class Player extends MoveableEntity {
   private bulletInMag = 10;
   private gunReloadingTicksLeft = 30;
   private walking = false;
+  private walkingState = 1;
+  private walkingTicksLeft = 10;
 
   public constructor(
     x: number,
@@ -110,17 +112,19 @@ export default class Player extends MoveableEntity {
       this.jumpTicksLeft = 0;
     }
 
+    let isWalking = false;
     if (wantMove("left") && canMove("left", this.getMovementSpeed())) {
-      this.walking = true;
+      isWalking = true;
       this.setMoveDirection("left");
       this.x -= this.getMovementSpeed();
     }
 
     if (wantMove("right") && canMove("right", this.getMovementSpeed())) {
-      this.walking = true;
+      isWalking = true;
       this.setMoveDirection("right");
       this.x += this.getMovementSpeed();
     }
+    this.walking = isWalking;
 
     if (wantMove("shoot") && canShoot && this.bulletInMag) {
       this.gunReloadingTicksLeft = 60;
@@ -152,8 +156,17 @@ export default class Player extends MoveableEntity {
       this.bulletInMag = 10;
     }
 
-    if (this.walking) {
-      this.texture = "./Player/Move/Frame1.png";
+    if (!this.walkingTicksLeft) {
+      this.walkingTicksLeft = 8;
+      if (this.walking) {
+        this.walkingState++;
+        this.texture = "./Player/Move/Frame" + this.walkingState + ".png";
+      }
+      if (this.walkingState >= 7) {
+        this.walkingState = 1;
+      }
+    } else {
+      this.walkingTicksLeft--;
     }
   }
 

@@ -8,6 +8,9 @@ import { MoveableEntity } from "./MoveableEntity";
 export default class Enemy extends MoveableEntity {
   levelManager: LevelManager;
   entityManager: EntityManager;
+  private walkingTicksLeft: number = 0;
+  private walking: boolean = false;
+  private walkingState: number = 1;
   public constructor(
     x: number,
     y: number,
@@ -86,16 +89,34 @@ export default class Enemy extends MoveableEntity {
     if (canFall()) {
       this.y += gamePhysics.getGravity();
     }
+
+    let isWalking = false;
     if (wantMove("right") && canMove("right")) {
+      isWalking = true;
       this.x += this.getMovementSpeed();
-    }
-    if (wantMove("right") && !canMove("right")) {
+    } else if (wantMove("right") && !canMove("right")) {
       this.setMoveDirection("left");
     }
+
     if (wantMove("left") && canMove("left")) {
+      isWalking = true;
       this.x -= this.getMovementSpeed();
     } else if (wantMove("left") && !canMove("left")) {
       this.setMoveDirection("right");
+    }
+    this.walking = isWalking;
+
+    if (!this.walkingTicksLeft) {
+      this.walkingTicksLeft = 8;
+      if (this.walking) {
+        this.walkingState++;
+        this.texture = "./Enemy/Move/Frame" + this.walkingState + ".png";
+      }
+      if (this.walkingState >= 8) {
+        this.walkingState = 1;
+      }
+    } else {
+      this.walkingTicksLeft--;
     }
   }
 }

@@ -3,8 +3,9 @@ import { computed, ref } from "vue";
 import EntityManager from "./EntityManager";
 import EntityRenderer from "./EntityRenderer.vue";
 import LevelManager from "./LevelManager";
-import Player from "./../Entities/Player";
-import Bullet from "./../Entities/Bullet";
+import Player from "../Entities/Player";
+import Bullet from "../Entities/Bullet";
+import Enemy from "../Entities/Enemy";
 
 const props = defineProps<{
   entityManager: EntityManager;
@@ -60,7 +61,10 @@ defineExpose({ tick });
         }px`,
         maskImage: entityManager
           .getEntityList()
-          .filter((e) => e instanceof Player || e instanceof Bullet)
+          .filter(
+            (e) =>
+              e instanceof Player || e instanceof Bullet || e instanceof Enemy
+          )
           .map(
             (e) => `radial-gradient(
           circle at ${e.x}px ${e.y}px,
