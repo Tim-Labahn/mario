@@ -74,15 +74,7 @@ export default class LevelManager {
       row.split("").forEach((cell, x) => {
         if (cell === "W")
           this.entityManager.addEntity(
-            new Wall(
-              x * 50 + 50,
-              y * 50 + 50,
-              50,
-              50,
-              "./Wall1.png",
-              "right",
-              0
-            )
+            new Wall(x * 50 + 50, y * 50 + 50, 50, 50, "./Wall1.png", 0, true)
           );
 
         if (cell === "1") {
@@ -92,9 +84,11 @@ export default class LevelManager {
             50,
             100,
             "./Player1.png",
+            3,
+            5,
             this,
             this.entityManager,
-            5,
+            true,
             "right"
           );
           player.setMovementKeys(" ", "a", "d", "s");
@@ -102,14 +96,16 @@ export default class LevelManager {
         }
         if (cell === "2") {
           const player = new Player(
-            x * 50 + 40,
+            x * 50 + 50,
             y * 50 + 50,
-            45,
-            45,
-            "./Player2.png",
+            50,
+            100,
+            "./Player1.png",
+            3,
+            5,
             this,
             this.entityManager,
-            5,
+            true,
             "right"
           );
           player.setMovementKeys(
@@ -128,10 +124,10 @@ export default class LevelManager {
               50,
               50,
               "./Black.png",
-              "right",
+              0,
               this,
               this.entityManager,
-              0
+              true
             )
           );
         if (cell === "E")
@@ -142,8 +138,12 @@ export default class LevelManager {
               40,
               40,
               "./Enemy.png",
+              1,
+              "right",
               this,
-              this.entityManager
+              this.entityManager,
+              0,
+              true
             )
           );
         if (cell === "G") {

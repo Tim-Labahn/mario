@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import Entity from "../Entities/Entity";
+import { MoveableEntity } from "../Entities/MoveableEntity";
 
 defineProps<{ entity: Entity }>();
 </script>
@@ -14,7 +15,13 @@ defineProps<{ entity: Entity }>();
       height: `${entity.height}px`,
       backgroundImage: `url(${entity.texture})`,
       backgroundSize: 'cover',
-      transform: `scaleX(${entity.moveDirection == 'right' ? 1 : -1})`,
+      transform: `scaleX(${
+        entity instanceof MoveableEntity
+          ? entity.getMoveDirection() == 'right'
+            ? 1
+            : -1
+          : -1
+      })`,
     }"
     :id="entity.id"
   ></div>

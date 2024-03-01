@@ -3,42 +3,59 @@ import GamePhysics from "../Managers/GamePhysics";
 import LevelManager from "../Managers/LevelManager";
 import EntityManager from "../Managers/EntityManager";
 import Bullet from "./Bullet";
+import { MoveableEntity } from "./MoveableEntity";
 
-export default class Enemy extends Entity {
+export default class Enemy extends MoveableEntity {
   levelManager: LevelManager;
   entityManager: EntityManager;
   public constructor(
     x: number,
     y: number,
-    sizeX: number,
-    sizeY: number,
+    width: number,
+    heigth: number,
     texture: string,
+    moveSpeed: number,
+    moveDirection: "left" | "right",
     levelManager: LevelManager,
-    entityManager: EntityManager
+    entityManager: EntityManager,
+    visionConeWidth: number = 0,
+    hasMovementCollision: boolean
   ) {
-    super(x, y, sizeX, sizeY, texture, "right");
+    super(
+      x,
+      y,
+      width,
+      heigth,
+      texture,
+      moveSpeed,
+      visionConeWidth,
+      hasMovementCollision,
+      moveDirection
+    );
     this.levelManager = levelManager;
     this.entityManager = entityManager;
     this.hasMovementCollision = true;
   }
-  private gravity = 2.3;
-  private moveSpeed = 1;
-
-  public getMoveDirection() {
-    return this.moveDirection;
-  }
 
   public tick(gamePhysics: GamePhysics) {
     const wantMove = (direction: "right" | "left") => {
-      return this.moveDirection == direction;
+      return this.getMoveDirection() == direction;
     };
 
     const canMove = (direction: "down" | "up" | "right" | "left") => {
-      return !gamePhysics.collidesInDirection(this, direction, this.moveSpeed);
+      return !gamePhysics.collidesInDirection(
+        this,
+        direction,
+        this.getMovementSpeed()
+      );
     };
 
     const canFall = () => {
-      return !gamePhysics.collidesInDirection(this, "down", this.gravity);
+      return !gamePhysics.collidesInDirection(
+        this,
+        "down",
+        gamePhysics.getGravity()
+      );
     };
 
     if (
@@ -67,18 +84,18 @@ export default class Enemy extends Entity {
     }
 
     if (canFall()) {
-      this.y += this.gravity;
+      this.y += gamePhysics.getGravity();
     }
     if (wantMove("right") && canMove("right")) {
-      this.x += this.moveSpeed;
+      this.x += this.getMovementSpeed();
     }
     if (wantMove("right") && !canMove("right")) {
-      this.moveDirection = "left";
+      this.setMoveDirection("left");
     }
     if (wantMove("left") && canMove("left")) {
-      this.x -= this.moveSpeed;
+      this.x -= this.getMovementSpeed();
     } else if (wantMove("left") && !canMove("left")) {
-      this.moveDirection = "right";
+      this.setMoveDirection("right");
     }
   }
 }

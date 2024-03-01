@@ -1,3 +1,5 @@
+import Bullet from "../Entities/Bullet";
+import Enemy from "../Entities/Enemy";
 import Entity from "../Entities/Entity";
 import Player from "../Entities/Player";
 import EntityManager from "./EntityManager";
@@ -23,13 +25,13 @@ export default class GamePhysics {
   }
 
   public collidesInDirection(
-    entity: Entity,
+    entity: Entity | Player,
     direction: "up" | "down" | "left" | "right",
     offset: number
   ) {
     for (const otherEntity of this.entityManager
       .getEntityList()
-      .filter((a) => a.getMovementCollision())) {
+      .filter((a) => a.hasMovementCollision == true)) {
       if (entity === otherEntity) continue;
       if (direction === "up") {
         if (
@@ -107,13 +109,20 @@ export default class GamePhysics {
     return false;
   }
 
-  public getCollidingEntities(entity: Entity, offset: number = 3) {
+  public getCollidingEntities(
+    entity: Entity | Player | Bullet | Enemy,
+    offset: number = 3
+  ) {
     return this.entityManager
       .getEntityList()
       .filter((e) => e !== entity && this.isColliding(entity, e, offset));
   }
 
-  private isColliding(entity1: Entity, entity2: Entity, offset: number) {
+  private isColliding(
+    entity1: Entity | Player | Bullet | Enemy,
+    entity2: Entity | Player | Bullet | Enemy,
+    offset: number
+  ) {
     const conditionX =
       entity1.x - entity1.width / 2 - offset < entity2.x + entity2.width / 2;
     const conditionX2 =

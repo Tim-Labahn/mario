@@ -1,17 +1,46 @@
-import Entity from "./Entity";
 import GamePhysics from "../Managers/GamePhysics";
 import EntityManager from "../Managers/EntityManager";
 import LevelManager from "../Managers/LevelManager";
 import Wall from "./Wall";
 import Player from "./Player";
 import Enemy from "./Enemy";
+import { MoveableEntity } from "./MoveableEntity";
 
-export default class Bullet extends Entity {
-  protected hasMovementCollision = true;
+export default class Bullet extends MoveableEntity {
+  hasMovementCollision = true;
   levelManager: LevelManager;
   entityManager: EntityManager;
+
+  public constructor(
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    texture: string,
+    levelManager: LevelManager,
+    entityManager: EntityManager,
+    moveDirection: "left" | "right",
+    movementSpeed: number,
+    visonConeWidth: number,
+    hasMovementCollision: boolean
+  ) {
+    super(
+      x,
+      y,
+      width,
+      height,
+      texture,
+      movementSpeed,
+      visonConeWidth,
+      hasMovementCollision,
+      moveDirection
+    );
+    this.levelManager = levelManager;
+    this.entityManager = entityManager;
+  }
+
   public tick(gamePhysics: GamePhysics) {
-    this.x += this.moveDirection == "left" ? -20 : 20;
+    this.x += this.getMoveDirection() == "left" ? -20 : 20;
 
     if (
       gamePhysics
@@ -38,21 +67,5 @@ export default class Bullet extends Entity {
         this.entityManager.removeEntity(this);
       }
     }
-  }
-  public constructor(
-    x: number,
-    y: number,
-    width: number,
-    height: number,
-    texture: string,
-    levelManager: LevelManager,
-    entityManager: EntityManager,
-    moveDirection: string,
-    visonConeWidth: number
-  ) {
-    super(x, y, width, height, texture, "right", visonConeWidth);
-    this.levelManager = levelManager;
-    this.entityManager = entityManager;
-    this.moveDirection = moveDirection;
   }
 }

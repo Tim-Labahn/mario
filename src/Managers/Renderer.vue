@@ -13,7 +13,9 @@ const props = defineProps<{
 
 const screenOffset = computed(
   () =>
-    props.entityManager.getPlayerList().reduce((a, b) => a + b.x, 0) /
+    props.entityManager
+      .getPlayerList()
+      .reduce((a, b) => a + b.getPositionX(), 0) /
     props.entityManager.getPlayerList().length
 );
 let currentX = ref(screenOffset.value);
@@ -30,9 +32,19 @@ defineExpose({ tick });
   <div id="Debug" style="color: white; text-shadow: 1px 1px 2px black">
     Entities: {{ entityManager.getEntityList().length }} <br />
     Player: X:
-    {{ entityManager.getPlayerList().find((e) => e)?.x }}
+    {{
+      entityManager
+        .getPlayerList()
+        .find((e) => e)
+        ?.getPositionX()
+    }}
     Y:
-    {{ entityManager.getPlayerList().find((e) => e)?.y }}
+    {{
+      entityManager
+        .getPlayerList()
+        .find((e) => e)
+        ?.getPositionY()
+    }}
     <br />
   </div>
   <div class="mapWrapper">
@@ -53,7 +65,7 @@ defineExpose({ tick });
             (e) => `radial-gradient(
           circle at ${e.x}px ${e.y}px,
           rgba(0, 0, 0, 1) 0px,
-          rgba(255, 255, 255, 0) ${e.visonConeWidth * 25}px
+          rgba(255, 255, 255, 0) ${e.visionConeWidth * 25}px
         )`
           )
           .join(', '),

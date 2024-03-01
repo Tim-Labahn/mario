@@ -1,23 +1,74 @@
 import KeyboardHandler from "../Singletons/KeyboardHandler";
 import GamePhysics from "../Managers/GamePhysics";
-import Entity from "./Entity";
 import LevelManager from "../Managers/LevelManager";
 import EntityManager from "../Managers/EntityManager";
 import Bullet from "./Bullet";
+import { MoveableEntity } from "./MoveableEntity";
 
-export default class Player extends Entity {
+export default class Player extends MoveableEntity {
   keyboardHandler: KeyboardHandler;
   levelManager: LevelManager;
   entityManager: EntityManager;
-  private movementSpeed = 3;
-  private gravity = 3;
   private jumpForce = 5;
   private jumpTicksLeft = 0;
   private bulletCooldown = 0;
   private bulletInMag = 10;
   private gunReloadingTicksLeft = 30;
-  public stopPlayerMovement = false;
   private walking = false;
+
+  public constructor(
+    x: number,
+    y: number,
+    width: number = 10,
+    height: number = 5,
+    texture: string,
+    movementSpeed: number,
+    visionConeWidth: number,
+    levelManager: LevelManager,
+    entityManager: EntityManager,
+    hasMovementCollision: boolean,
+    moveDirection: "right" | "left"
+  ) {
+    super(
+      x,
+      y,
+      width,
+      height,
+      texture,
+      movementSpeed,
+      visionConeWidth,
+      hasMovementCollision,
+      moveDirection
+    );
+    this.levelManager = levelManager;
+    this.keyboardHandler = KeyboardHandler.getInstance();
+    this.entityManager = entityManager;
+  }
+  private movementKeys = {
+    up: " ",
+    left: "a",
+    right: "d",
+    shoot: "s",
+  };
+
+  public setMovementKeys(
+    up: string,
+    left: string,
+    right: string,
+    shoot: string
+  ) {
+    this.movementKeys = { up, left, right, shoot };
+  }
+  public getMovementKey(key: "up" | "left" | "right" | "shoot") {
+    return this.movementKeys[key];
+  }
+
+  public getPositionX() {
+    return this.x;
+  }
+  public getPositionY() {
+    return this.y;
+  }
 
   public tick(gamePhysics: GamePhysics) {
     const bulletCooldownValue = 10;
@@ -42,11 +93,11 @@ export default class Player extends Entity {
 
     // Check if the player can shoot based on bulletCooldown
 
-    if (canMove("down", this.gravity)) {
-      this.y += this.gravity;
+    if (canMove("down", gamePhysics.getGravity())) {
+      this.y += gamePhysics.getGravity();
     }
 
-    if (!canMove("down", this.gravity) && wantMove("up")) {
+    if (!canMove("down", gamePhysics.getGravity()) && wantMove("up")) {
       this.jumpTicksLeft = 30;
     }
 
@@ -59,16 +110,16 @@ export default class Player extends Entity {
       this.jumpTicksLeft = 0;
     }
 
-    if (wantMove("left") && canMove("left", this.movementSpeed)) {
+    if (wantMove("left") && canMove("left", this.getMovementSpeed())) {
       this.walking = true;
-      this.moveDirection = "left";
-      this.x -= this.movementSpeed;
+      this.setMoveDirection("left");
+      this.x -= this.getMovementSpeed();
     }
 
-    if (wantMove("right") && canMove("right", this.movementSpeed)) {
+    if (wantMove("right") && canMove("right", this.getMovementSpeed())) {
       this.walking = true;
-      this.moveDirection = "right";
-      this.x += this.movementSpeed;
+      this.setMoveDirection("right");
+      this.x += this.getMovementSpeed();
     }
 
     if (wantMove("shoot") && canShoot && this.bulletInMag) {
@@ -77,7 +128,7 @@ export default class Player extends Entity {
       this.entityManager.addEntity(
         new Bullet(
           this.x -
-            (this.moveDirection == "right"
+            (this.getMoveDirection() == "right"
               ? -20
               : 20) /*This is the ofset from the mullet of the gun to where it should spawn so it does not spawn in player.*/,
           this.y - 13,
@@ -86,8 +137,10 @@ export default class Player extends Entity {
           "./Bullet.png",
           this.levelManager,
           this.entityManager,
-          this.moveDirection,
-          2
+          this.getMoveDirection(),
+          this.getMovementSpeed(),
+          1,
+          this.hasMovementCollision
         )
       );
       this.bulletInMag--;
@@ -102,42 +155,6 @@ export default class Player extends Entity {
     if (this.walking) {
       this.texture = "./Player/Move/Frame1.png";
     }
-  }
-
-  public constructor(
-    x: number,
-    y: number,
-    width: number,
-    height: number,
-    texture: string,
-    levelManager: LevelManager,
-    entityManager: EntityManager,
-    visonConeWidth: number,
-    direction: "right" | "left"
-  ) {
-    super(x, y, width, height, texture, direction, visonConeWidth);
-    this.levelManager = levelManager;
-    this.keyboardHandler = KeyboardHandler.getInstance();
-    this.entityManager = entityManager;
-  }
-
-  private movementKeys = {
-    up: " ",
-    left: "a",
-    right: "d",
-    shoot: "s",
-  };
-
-  public setMovementKeys(
-    up: string,
-    left: string,
-    right: string,
-    shoot: string
-  ) {
-    this.movementKeys = { up, left, right, shoot };
-  }
-  public getMovementKey(key: "up" | "left" | "right" | "shoot") {
-    return this.movementKeys[key];
   }
 
   public getAmmunition(): Number {
