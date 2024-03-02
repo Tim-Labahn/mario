@@ -9,6 +9,7 @@ export default class Player extends MoveableEntity {
   keyboardHandler: KeyboardHandler;
   levelManager: LevelManager;
   entityManager: EntityManager;
+
   private jumpForce = 5;
   private jumpTicksLeft = 0;
   private bulletCooldown = 0;
@@ -16,9 +17,16 @@ export default class Player extends MoveableEntity {
   private gunReloadingTicksLeft = 30;
   private walking = false;
   private walkingState = 1;
-  private walkingTicksLeft = 10;
+  private walkingTicksLeft = 8;
 
-  public constructor(
+  private movementKeys = {
+    up: " ",
+    left: "a",
+    right: "d",
+    shoot: "s",
+  };
+
+  constructor(
     x: number,
     y: number,
     width: number = 10,
@@ -46,71 +54,67 @@ export default class Player extends MoveableEntity {
     this.entityManager = entityManager;
     this.keyboardHandler = KeyboardHandler.getInstance();
   }
-  private movementKeys = {
-    up: " ",
-    left: "a",
-    right: "d",
-    shoot: "s",
-  };
 
-  public setMovementKeys(
-    up: string,
-    left: string,
-    right: string,
-    shoot: string
-  ) {
+  setMovementKeys(up: string, left: string, right: string, shoot: string) {
     this.movementKeys = { up, left, right, shoot };
   }
-  public getMovementKey(key: "up" | "left" | "right" | "shoot") {
+
+  getMovementKey(key: "up" | "left" | "right" | "shoot") {
     return this.movementKeys[key];
   }
 
-  public getPositionX() {
+  getPositionX() {
     return this.x;
   }
-  public getPositionY() {
+
+  getPositionY() {
     return this.y;
   }
 
-  public tick(gamePhysics: GamePhysics) {
+
+  private handleShootingAnimation() {
+    const shootingFrames = ["Frame1", "Frame2", "Frame3", "Frame4","Frame5"];
+    const frameDuration = 60;
+
+    shootingFrames.forEach((frame, i) => {
+      setTimeout(() => {
+        this.texture = `./Player/Shoot/${frame}.png`;
+        this.width =  60;
+        
+      }, i * frameDuration);
+    });
+  }
+  
+  
+  
+  
+
+  tick(gamePhysics: GamePhysics) {
     const bulletCooldownValue = 10;
     const canShoot = this.bulletCooldown === 0;
+
     if (this.levelManager.win || this.levelManager.loseScreen.value) return;
 
     const canMove = (
       direction: "up" | "down" | "left" | "right",
       offset: number
-    ) => {
-      return !gamePhysics.collidesInDirection(this, direction, offset);
-    };
+    ) => !gamePhysics.collidesInDirection(this, direction, offset);
 
-    const wantMove = (direction: "up" | "left" | "right" | "shoot") => {
-      return this.keyboardHandler.isKeyDown(this.getMovementKey(direction));
-    };
+    const wantMove = (direction: "up" | "left" | "right" | "shoot") =>
+      this.keyboardHandler.isKeyDown(this.getMovementKey(direction));
 
-    // Decrease bulletCooldown if it's greater than zero
-    if (this.bulletCooldown > 0) {
-      this.bulletCooldown--;
-    }
+    if (this.bulletCooldown > 0) this.bulletCooldown--;
 
-    // Check if the player can shoot based on bulletCooldown
+    if (canMove("down", gamePhysics.getGravity())) this.y += gamePhysics.getGravity();
 
-    if (canMove("down", gamePhysics.getGravity())) {
-      this.y += gamePhysics.getGravity();
-    }
-
-    if (!canMove("down", gamePhysics.getGravity()) && wantMove("up")) {
-      this.jumpTicksLeft = 30;
-    }
+    if (!canMove("down", gamePhysics.getGravity()) && wantMove("up")) this.jumpTicksLeft = 30;
 
     if (this.jumpTicksLeft && canMove("up", this.jumpForce)) {
       this.jumpTicksLeft--;
       this.y -= this.jumpForce;
     }
 
-    if (!canMove("up", this.jumpForce)) {
-      this.jumpTicksLeft = 0;
-    }
+    if (!canMove("up", this.jumpForce)) this.jumpTicksLeft = 0;
 
     let isWalking = false;
     if (wantMove("left") && canMove("left", this.getMovementSpeed())) {
@@ -124,73 +128,52 @@ export default class Player extends MoveableEntity {
       this.setMoveDirection("right");
       this.x += this.getMovementSpeed();
     }
+
     this.walking = isWalking;
 
     if (wantMove("shoot") && canShoot && this.bulletInMag) {
-      this.x + 21;
-      this.width = 64;
-      this.height = 80;
-
-      setTimeout(() => {
-        this.texture = "./Player/Shoot/Frame1.png";
-      }, 60);
-      setTimeout(() => {
-        this.texture = "./Player/Shoot/Frame2.png";
-      }, 120);
-      setTimeout(() => {
-        this.texture = "./Player/Shoot/Frame3.png";
-      }, 180);
-      setTimeout(() => {
-        this.texture = "./Player/Shoot/Frame4.png";
-      }, 240);
+      this.handleShootingAnimation();
 
       this.gunReloadingTicksLeft = 60;
       this.bulletCooldown = bulletCooldownValue;
-      this.entityManager.addEntity(
-        new Bullet(
-          this.x -
-            (this.getMoveDirection() == "right"
-              ? -20
-              : 20) /*This is the ofset from the mullet of the gun to where it should spawn so it does not spawn in player.*/,
-          this.y - 13,
-          10,
-          5,
-          "./Bullet.png",
-          this.levelManager,
-          this.entityManager,
-          this.getMoveDirection(),
-          this.getMovementSpeed(),
-          1,
-          this.hasMovementCollision
-        )
+
+      const bullet = new Bullet(
+        this.x - (this.getMoveDirection() == "right" ? -20 : 20),
+        this.y - 13,
+        10,
+        5,
+        "./Bullet.png",
+        this.levelManager,
+        this.entityManager,
+        this.getMoveDirection(),
+        this.getMovementSpeed(),
+        1,
+        this.hasMovementCollision
       );
+
+      this.entityManager.addEntity(bullet);
       this.bulletInMag--;
     }
-    if (!this.bulletInMag) {
-      this.gunReloadingTicksLeft--;
-    }
-    if (this.gunReloadingTicksLeft < 1) {
-      this.bulletInMag = 10;
-    }
+
+    if (!this.bulletInMag) this.gunReloadingTicksLeft--;
+
+    if (this.gunReloadingTicksLeft < 1) this.bulletInMag = 10;
 
     if (!this.walkingTicksLeft) {
       this.walkingTicksLeft = 8;
       if (this.walking) {
-        this.walkingState++;
+        this.walkingState = (this.walkingState % 7) + 1;
 
         this.width = 40;
         this.height = 80;
-        this.texture = "./Player/Move/Frame" + this.walkingState + ".png";
-      }
-      if (this.walkingState >= 7) {
-        this.walkingState = 1;
+        this.texture = `./Player/Move/Frame${this.walkingState}.png`;
       }
     } else {
       this.walkingTicksLeft--;
     }
   }
 
-  public getAmmunition(): Number {
+  getAmmunition(): Number {
     return this.bulletInMag;
   }
 }
