@@ -2,11 +2,13 @@ import Entity from "./Entity";
 import LevelManager from "../Managers/LevelManager";
 import GamePhysics from "../Managers/GamePhysics";
 import EntityManager from "../Managers/EntityManager";
+import Player from "./Player";
 
 export default class DeathBorder extends Entity {
   levelManager: LevelManager;
   entityManager: EntityManager;
-  public constructor(
+
+  constructor(
     x: number,
     y: number,
     width: number,
@@ -22,13 +24,22 @@ export default class DeathBorder extends Entity {
     this.hasMovementCollision = false;
     this.entityManager = entityManager;
   }
+
   hasMovementCollision = true;
-  public tick(gamePhysics: GamePhysics): void {
+
+  tick(gamePhysics: GamePhysics): void {
+    this.checkPlayerCollisions(gamePhysics);
+  }
+
+  private checkPlayerCollisions(gamePhysics: GamePhysics): void {
     for (const player of this.entityManager.getPlayerList()) {
-      //TODO: there is a bug whre player can survive on the border but die on jumping or moving. only had it once so no idea what it was.
-      if (gamePhysics.isCollidingInDirection(this, player, "up", 6)) {
+      if (this.isPlayerAboveDeathBorder(player, gamePhysics)) {
         this.entityManager.removeEntity(player);
       }
     }
+  }
+
+  private isPlayerAboveDeathBorder(player: Player, gamePhysics: GamePhysics): boolean {
+    return gamePhysics.isCollidingInDirection(this, player, "up", 6);
   }
 }
