@@ -1,13 +1,8 @@
-import Entity from "./Entity";
-import GamePhysics from "../Managers/GamePhysics";
+// Goal.ts
 import LevelManager from "../Managers/LevelManager";
-import Player from "./Player";
-import KeyboardHandler from "../Singletons/KeyboardHandler";
+import Door from "./Door";
 
-export default class Goal extends Entity {
-  private levelManager: LevelManager;
-  private keyboardHandler: KeyboardHandler;
-
+export default class Goal extends Door {
   public constructor(
     x: number,
     y: number,
@@ -17,27 +12,30 @@ export default class Goal extends Entity {
     levelManager: LevelManager,
     hasMovementCollision: boolean
   ) {
-    super(x, y, sizeX, sizeY, texture, 3, hasMovementCollision);
-    this.keyboardHandler = KeyboardHandler.getInstance();
-    this.levelManager = levelManager;
+    super(x, y, sizeX, sizeY, texture, levelManager, hasMovementCollision);
   }
 
-  public tick(gamePhysics: GamePhysics) {
-    if (
-      gamePhysics.getCollidingEntities(this).some((e) => e instanceof Player) &&
-      this.keyboardHandler.isKeyDown("e")
-    ) {
-      this.texture = "./OpenDoor.png";
+  protected onPlayerInteract() {
+    this.texture = "./OpenDoor.png";
+    setTimeout(() => {
+      this.levelManager.win = true;
+      this.levelManager.nextLevel();
+      this.levelManager.loadLevel();
       setTimeout(() => {
-        this.levelManager.win = true;
-        this.levelManager.nextLevel();
-        this.levelManager.loadLevel();
-        setTimeout(() => {
-          this.levelManager.win = false;
-        }, Math.floor(Math.random() * (4000 - 1200)) + 1200);
-      }, 500);
-    } else {
-      this.texture = "./CloseDoor.png";
-    }
+        this.levelManager.win = false;
+      }, 1500);
+    }, 400);
+  }
+
+  protected onPlayerNotInteract() {
+    this.texture = "./CloseDoor.png";
+  }
+
+  public getPositionX(): number {
+    return this.x;
+  }
+
+  public getPositionY(): number {
+    return this.y;
   }
 }

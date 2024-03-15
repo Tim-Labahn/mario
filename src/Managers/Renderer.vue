@@ -28,7 +28,8 @@ defineExpose({ tick });
 
 <template>
   <div id="Debug" style="color: white; text-shadow: 1px 1px 2px black">
-    Entities: {{ entityManager.getEntityList().length }} <br />
+    Entities: {{ entityManager.getEntityList().length }} 
+    <br />
     Player: X:
     {{
       entityManager

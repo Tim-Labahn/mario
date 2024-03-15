@@ -13,7 +13,7 @@ const LEVELS = [
 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 W                                                   W
 W                                                   W
-W1  G                E                        E    GW
+W1                   E                        E    GW
 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 `,
   `             
@@ -42,6 +42,7 @@ export default class LevelManager {
       this.currentLevel = 0;
     }
   }
+
   public lastLevel() {
     if (this.currentLevel >= 1) {
       this.currentLevel--;
