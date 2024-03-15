@@ -113,13 +113,21 @@ export default class Player extends MoveableEntity {
     }
 
     let isWalking = false;
-    if (wantMove("left") && canMove("left", this.getMovementSpeed())) {
+    if (
+      wantMove("left") &&
+      canMove("left", this.getMovementSpeed()) &&
+      !wantMove("shoot")
+    ) {
       isWalking = true;
       this.setMoveDirection("left");
       this.x -= this.getMovementSpeed();
     }
 
-    if (wantMove("right") && canMove("right", this.getMovementSpeed())) {
+    if (
+      wantMove("right") &&
+      canMove("right", this.getMovementSpeed()) &&
+      !wantMove("shoot")
+    ) {
       isWalking = true;
       this.setMoveDirection("right");
       this.x += this.getMovementSpeed();
@@ -143,6 +151,9 @@ export default class Player extends MoveableEntity {
       setTimeout(() => {
         this.texture = "./Player/Shoot/Frame4.png";
       }, 240);
+      setTimeout(() => {
+        this.texture = "./Player/Shoot/Frame5.png";
+      }, 300);
 
       this.gunReloadingTicksLeft = 60;
       this.bulletCooldown = bulletCooldownValue;
